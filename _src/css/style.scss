@@ -1,0 +1,343 @@
+$sideCells: 10;
+$dotSize: 30px;
+$box-size: $dotSize * $sideCells;
+$radius: 0;
+
+$padding: 20px;
+
+$color-border: #CCC;
+$color-active: orange;
+$color-step: lightgray;
+$color-step-l: lighten($color-step, 12);
+$color-step-d: darken($color-step, 20);
+
+@mixin clear {
+  content: '';
+  display: table;
+  width: 100%;
+  clear: both;
+}
+
+$time: 1s;
+
+@import "reset";
+
+* {
+box-sizing: border-box;
+}
+
+LABEL {
+  cursor: pointer;
+}
+
+.l-wrapper {
+  position: absolute;
+  display: inline-block;
+  margin: auto;
+  left: 1em;
+  right: 1em;
+  top: 1em;
+  bottom: 1em;
+  border: 1px solid $color-border;
+  white-space: nowrap;
+  &:after {
+    @include clear;
+    }
+  }
+
+.b-boxes {
+  position: relative;
+  text-align: center;
+  border: 1px solid $color-border;
+  border-width: 1px 0;
+}
+.l-zero-gravity {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
+}
+.b-box {
+  position: relative;
+  display: inline-block;
+  border: 1px solid $color-border;
+  &:nth-of-type(1){
+    margin-right: $padding;
+    }
+}
+.b-panel {
+  /*position: absolute;
+  left: 0;
+  width: 100%;
+  height: $dotSize + $padding;*/
+  padding: $padding/2;
+  color: #888;
+  &:before,
+  &:after {
+    @include clear;
+    }
+}
+
+
+.b-panel--top {
+}
+
+.b-panel--bottom {
+}
+
+
+.b-title {
+  display: inline-block;
+  padding-right: $padding/2;
+  line-height: $dotSize;
+  }
+
+.b-steps .b-title {
+  float: none;
+  display: inline-block;
+  margin: 0 auto;
+  padding: 0;
+  }
+  
+/* Paint Box 
+----------------------------- */
+.b-box--paint {
+  overflow: hidden;
+  border-width: 0 1px 1px 0;
+  background-image: 
+    linear-gradient( to right,
+      $color-border 1px,
+      transparent 1px
+    ),
+    linear-gradient( to bottom,
+      $color-border 1px,
+      transparent 1px
+    );
+  background-position: 0 0;
+}
+/* Labels 
+----------------------------- */
+.cell {
+  display: block;
+  float: left;
+}
+.cell__inp {
+  position: absolute;
+  display: none;
+  }
+.cell__lbl {
+  display: block;
+  border-radius: $radius; 
+  /*box-shadow: 0 0 2px #999 inset;*/
+
+}
+:checked + .cell__lbl {
+  position: relative;
+/*  z-index: 5;
+  background: gold;
+  opacity: .5*/
+  }
+.is-colored {
+  background: $color-active;
+}
+
+
+
+/* Result Box 
+----------------------------- */
+.b-box--result {
+  overflow: hidden;
+  }
+
+/* Dotts 
+----------------------------- */
+
+.dot {
+  display: block;
+  position: absolute;
+  border-radius: $radius; 
+}
+.dot--previous {
+  opacity: .2;
+}
+
+//.b-box--result .dot
+.is-running{
+ /*-webkit-animation: $time shadows linear infinite;
+  animation: $time shadows linear infinite;*/
+}
+
+@keyframes shadows {}
+@-webkit-keyframes shadows {}
+
+/* Palette
+----------------------------- */
+.b-palette {  
+  display: inline-block;
+}
+.items--colors {
+  display: inline-block;
+  vertical-align: middle;
+}
+.color {
+  display: inline-block;
+  /*float: left;*/
+  width: $dotSize;
+  height: $dotSize;
+  }
+.color__inp {
+  display: none;
+  }
+
+.color__lbl {
+  display: block;
+  height: $dotSize;
+}
+:checked + .color__lbl {
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, .3);
+}
+
+/* Panel
+----------------------------- */
+.b-panel__item {
+  float: left;
+  margin-left: $padding*1.6;
+  &:first-child {
+    margin-left: 0;
+    }
+}
+.text--value {
+  width: 3.5em;
+  height: $dotSize;
+  line-height: $dotSize;
+  pading: 0;
+  border: 1px solid $color-border;
+  border-radius: 5px;
+  text-align: center;
+}
+
+/* Steps
+----------------------------- */
+.b-steps {
+  text-align: center;
+  -webkit-user-select: none;  
+  -moz-user-select: none;  
+  -ms-user-select: none;   
+  user-select: none;   
+}
+.steps-control {
+  display: inline-block;
+  position: relative;
+  width: $dotSize*.8;
+  height: $dotSize*.8;
+  line-height: $dotSize*.8;
+  margin: 0 6px;
+  top: 0;
+  background: $color-step;
+  font-weight: bold;
+  color: #444;
+  cursor: pointer;
+  -webkit-transition: all .1s;
+  transition: all .2s;
+  }
+.steps-control:hover {
+  top: -1px;  
+  background: $color-step-l;
+  color: #555;
+}
+.steps-control:active {
+  top: 1px; 
+  background: $color-step-d;
+  color: #FFF;
+}
+.items--steps {
+  display: block;
+  margin-top: 10px;
+}
+.step {
+  display: inline-block;
+  width: $dotSize;
+  height: $dotSize;
+  margin-right: 1px;
+  line-height: $dotSize;
+  background: $color-step-l;
+  text-align: center;
+  }
+.step__inp {
+  position: absolute;
+  display: none;
+  }
+.step__lbl {
+  display: block;
+  height: $dotSize;
+}
+.is--filled + .step__lbl {
+  background: $color-step;
+  }
+
+:checked + .step__lbl {
+  position: relative;
+  z-index: 1;
+  background: $color-step-d;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, .3);
+  color: #FFF;
+}
+
+
+/* Codes
+----------------------------- */
+.b-codes {
+  /*display: none;*/
+  
+  position: absolute;
+  z-index: 10;
+  top: -$dotSize*1.7;
+  right: 0;
+  left: 0;
+  background: rgba(240, 240, 240, .9);
+  box-shadow: 0 0 20px rgba(0, 0, 0, .3);
+ 
+}
+.is-open {
+  right: -.5em;
+  left: -.5em;
+  box-shadow: 0 0 20px rgba(0, 0, 0, .3),
+     0 0 0 1000px rgba(255, 255, 255, .8);
+}
+
+.b-codes__toggle {
+  position: absolute;
+  top: -$padding*1.2;
+  right: $padding/2;
+  border-bottom: 1px dotted;
+  color: #555;
+  cursor: pointer;
+}
+.b-codes__wrapper {
+  display: none;
+  padding: $padding;
+  border: 1px solid #BBB;
+  .is-open & {
+    display: block;
+    }
+  }
+
+.b-codes--title {
+  margin-bottom: $padding/3;
+  color: #777;
+}
+.b-codes__textarea {
+  display: block;
+  width: 100%;
+  height: $dotSize*4;
+  border: 1px solid $color-border;
+  }
+.textarea--css {
+    margin-bottom: $padding;  
+    }
+

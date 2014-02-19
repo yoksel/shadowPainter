@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>    
+        <title>Learn something new</title>
+        <link rel="stylesheet" href="assets/css/style.css">
+    </head>    
+    <body>
+        <div class="l-wrapper" data-size="300" data-oneside="9">
+          <div class="b-panel b-panel--top">  
+            <div class="b-palette b-panel__item"></div>
+            <div class="b-duration b-panel__item"><h4 class='b-title'>Duration</h4>
+              <input type="text" value="2" class="text text--value text--duration" data-min="0" maxlength="2"/> sec.</div>
+            <div class="b-size b-panel__item"><h4 class='b-title'>Dotts</h4>
+              <input type="text" value="10" class="text text--value text--dots" data-min="1" data-max="20" maxlength="2"/></div>
+            <div class="b-size b-panel__item"><h4 class='b-title'>Size</h4>
+              <input type="text" value="30" class="text text--value text--size" data-min="2" data-max="300" maxlength="3"/> px</div>
+          </div>  
+          <div class="b-boxes">
+            <div class="l-zero-gravity">
+              <div class="b-box b-box--paint"></div>
+              <div class="b-box b-box--result"><span class="dot is-running"></span></div>
+            </div>  
+          </div>
+          <div class="b-panel b-panel--bottom">   
+            <div class="b-steps"></div>
+          </div>   
+          <div class="b-codes">
+            <span class="b-codes__toggle" data-init = "Get codes" data-opened = "Close">Get codes</span>
+            <div class="b-codes__wrapper">
+              <h3 class="b-codes--title">CSS</h3>
+              <textarea class="b-codes__textarea textarea--css"></textarea>
+              <h3 class="b-codes--title">HTML</h3>
+              <textarea class="b-codes__textarea textarea--html"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <script src="assets/js/script.js"></script>
+        <script src="//localhost:35740/livereload.js"></script>
+    </body>
+</html>

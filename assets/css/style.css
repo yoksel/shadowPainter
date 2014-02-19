@@ -1,0 +1,350 @@
+html, body, div, span, h1, h2, h3, h4, h5, h6,
+p, a, img, b, i, dl, dt, dd, ol, ul, li,
+label, article, aside, footer, header, section {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+LABEL {
+  cursor: pointer;
+}
+
+.l-wrapper {
+  position: absolute;
+  display: inline-block;
+  margin: auto;
+  left: 1em;
+  right: 1em;
+  top: 1em;
+  bottom: 1em;
+  border: 1px solid #cccccc;
+  white-space: nowrap;
+}
+.l-wrapper:after {
+  content: '';
+  display: table;
+  width: 100%;
+  clear: both;
+}
+
+.b-boxes {
+  position: relative;
+  text-align: center;
+  border: 1px solid #cccccc;
+  border-width: 1px 0;
+}
+
+.l-zero-gravity {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
+}
+
+.b-box {
+  position: relative;
+  display: inline-block;
+  border: 1px solid #cccccc;
+}
+.b-box:nth-of-type(1) {
+  margin-right: 20px;
+}
+
+.b-panel {
+  /*position: absolute;
+  left: 0;
+  width: 100%;
+  height: $dotSize + $padding;*/
+  padding: 10px;
+  color: #888;
+}
+.b-panel:before, .b-panel:after {
+  content: '';
+  display: table;
+  width: 100%;
+  clear: both;
+}
+
+.b-title {
+  display: inline-block;
+  padding-right: 10px;
+  line-height: 30px;
+}
+
+.b-steps .b-title {
+  float: none;
+  display: inline-block;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* Paint Box 
+----------------------------- */
+.b-box--paint {
+  overflow: hidden;
+  border-width: 0 1px 1px 0;
+  background-image: -webkit-gradient(linear, left top, right top, from(#cccccc), to(transparent)), -webkit-gradient(linear, left top, left bottom, from(#cccccc), to(transparent));
+  background-image: -webkit-linear-gradient(left, #cccccc 1px, transparent 1px), -webkit-linear-gradient(top, #cccccc 1px, transparent 1px);
+  background-image: linear-gradient(to right, #cccccc 1px, transparent 1px), linear-gradient(to bottom, #cccccc 1px, transparent 1px);
+  background-position: 0 0;
+}
+
+/* Labels 
+----------------------------- */
+.cell {
+  display: block;
+  float: left;
+}
+
+.cell__inp {
+  position: absolute;
+  display: none;
+}
+
+.cell__lbl {
+  display: block;
+  border-radius: 0;
+  /*box-shadow: 0 0 2px #999 inset;*/
+}
+
+:checked + .cell__lbl {
+  position: relative;
+  /*  z-index: 5;
+    background: gold;
+    opacity: .5*/
+}
+
+.is-colored {
+  background: orange;
+}
+
+/* Result Box 
+----------------------------- */
+.b-box--result {
+  overflow: hidden;
+}
+
+/* Dotts 
+----------------------------- */
+.dot {
+  display: block;
+  position: absolute;
+  border-radius: 0;
+}
+
+.dot--previous {
+  opacity: .2;
+}
+
+.is-running {
+  /*-webkit-animation: $time shadows linear infinite;
+   animation: $time shadows linear infinite;*/
+}
+
+@keyframes shadows {}
+@-webkit-keyframes shadows {}
+/* Palette
+----------------------------- */
+.b-palette {
+  display: inline-block;
+}
+
+.items--colors {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.color {
+  display: inline-block;
+  /*float: left;*/
+  width: 30px;
+  height: 30px;
+}
+
+.color__inp {
+  display: none;
+}
+
+.color__lbl {
+  display: block;
+  height: 30px;
+}
+
+:checked + .color__lbl {
+  position: relative;
+  z-index: 1;
+  -webkit-box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Panel
+----------------------------- */
+.b-panel__item {
+  float: left;
+  margin-left: 32px;
+}
+.b-panel__item:first-child {
+  margin-left: 0;
+}
+
+.text--value {
+  width: 3.5em;
+  height: 30px;
+  line-height: 30px;
+  pading: 0;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  text-align: center;
+}
+
+/* Steps
+----------------------------- */
+.b-steps {
+  text-align: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.steps-control {
+  display: inline-block;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  margin: 0 6px;
+  top: 0;
+  background: lightgrey;
+  font-weight: bold;
+  color: #444;
+  cursor: pointer;
+  -webkit-transition: all .1s;
+  transition: all .2s;
+}
+
+.steps-control:hover {
+  top: -1px;
+  background: #f2f2f2;
+  color: #555;
+}
+
+.steps-control:active {
+  top: 1px;
+  background: #a0a0a0;
+  color: #FFF;
+}
+
+.items--steps {
+  display: block;
+  margin-top: 10px;
+}
+
+.step {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin-right: 1px;
+  line-height: 30px;
+  background: #f2f2f2;
+  text-align: center;
+}
+
+.step__inp {
+  position: absolute;
+  display: none;
+}
+
+.step__lbl {
+  display: block;
+  height: 30px;
+}
+
+.is--filled + .step__lbl {
+  background: lightgrey;
+}
+
+:checked + .step__lbl {
+  position: relative;
+  z-index: 1;
+  background: #a0a0a0;
+  -webkit-box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.3);
+  color: #FFF;
+}
+
+/* Codes
+----------------------------- */
+.b-codes {
+  /*display: none;*/
+  position: absolute;
+  z-index: 10;
+  top: -51px;
+  right: 0;
+  left: 0;
+  background: rgba(240, 240, 240, 0.9);
+  -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.is-open {
+  right: -.5em;
+  left: -.5em;
+  -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 0 0 0 1000px rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 0 0 0 1000px rgba(255, 255, 255, 0.8);
+}
+
+.b-codes__toggle {
+  position: absolute;
+  top: -24px;
+  right: 10px;
+  border-bottom: 1px dotted;
+  color: #555;
+  cursor: pointer;
+}
+
+.b-codes__wrapper {
+  display: none;
+  padding: 20px;
+  border: 1px solid #BBB;
+}
+.is-open .b-codes__wrapper {
+  display: block;
+}
+
+.b-codes--title {
+  margin-bottom: 6.66667px;
+  color: #777;
+}
+
+.b-codes__textarea {
+  display: block;
+  width: 100%;
+  height: 120px;
+  border: 1px solid #cccccc;
+}
+
+.textarea--css {
+  margin-bottom: 20px;
+}
