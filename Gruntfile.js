@@ -135,7 +135,23 @@ module.exports = function (grunt) {
           dest: 'assets/img'             
         }]
       }
-    },  
+    }, 
+
+    /**
+     * JSHint
+     * https://github.com/gruntjs/grunt-contrib-jshint
+     * Manage the options inside .jshintrc file
+     */
+    jshint: {
+      files: [
+        //'src/js/*.js',
+        'assets/js/script.js'
+      ],
+      options: {
+        jshintrc: '.jshintrc'
+      }
+    },
+
     /**
      * https://npmjs.org/package/grunt-contrib-watch
      * Now with livereload
@@ -149,7 +165,8 @@ module.exports = function (grunt) {
         },
       },
       js: {
-        files: '<%= project.js_res %>{,*/}*.{js}',
+        files: '<%= project.js_res %>22{,*/}*.{js}',
+        tasks: ['jshint'],
         options: {
           livereload: 35740,
         },
@@ -183,17 +200,19 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-svgmin');
   grunt.loadNpmTasks('grunt-contrib-imagemin');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
 
   /**
    * Default task
    * Run `grunt` on the command line
    */
   grunt.registerTask('default', [
-    'svgmin',
+    //'svgmin',
     // 'imagemin',
     'connect',
     'open',
-    'watch'
+    'watch',
+    'jshint'
     ]);
 
   grunt.registerTask('build', [
