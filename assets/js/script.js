@@ -1,12 +1,10 @@
-console.log( "------------------------" );
-console.log( "Hello!" );
-
-
 var line = "------------------------";
+//console.log( "Hello!" );
 
 function shadowPainter() {
   var doc = document;
-  
+
+  var timer = 0;
 
   var classNames = {
     wrapper: ".l-wrapper",
@@ -142,6 +140,14 @@ function shadowPainter() {
     };
 
     return keyFrames;
+  }
+
+  function setTimer( func, params ) {
+    if ( timer ){
+      this.clearTimeout( timer );
+    }
+    var execFunc = function(){ func( params ) };
+    timer = this.setTimeout( execFunc , 50);
   }
 
   // -----------------------------------------
@@ -341,52 +347,61 @@ function shadowPainter() {
   }
 
   // -----------------------------------------
+
+  this.checkInputValue = function ( params ) {
+
+    var elem = params.elem;
+    var func = params.func;
+    var parent = params.parent;
+
+    var minMax = minMaxDef(elem);
+    var isNan = valueSetDefaultIfNAN(elem);
+
+    if ( isNan ){
+      elem.value = isNan;
+    }
+
+    if ( minMax  ) {
+      elem.value = minMax ;
+    }
+
+    func.call(parent, elem);
+  }
+
+  // -----------------------------------------
   
   this.addOnChangeEvents = function ( itemsClass, func ){
     var items = doc.querySelectorAll(itemsClass);
     var parent = this;
+
+    var params = { 
+      func: func,
+      parent: parent
+      };
     
     for (var i = 0; i < items.length; i++) {
       
-      // items[i].onkeydown = function() {
-      //   out("-- E: onkeydown-- ");
-      //   setTimeout('out("прошла секунда")', 1000);
-
-      //   out("Before IfNan: " + this.value);
-      //   this.value = valueSetDefaultIfNAN(this);
-      //   out("After: " + this.value);
-        
-      //   if ( event.keyCode == 38
-      //     || event.keyCode == 40 ){
-            
-      //       //this.value = getValByKeyCode(this, event.keyCode, event.shiftKey);
-      //       func.call(parent, this);
-      //     }
-      //   // else {
-      //   //   out("-- Other keys --");
-      //   //   //this.value = minMaxDef(this);
-      //   //   out (this.value);
-      //   //   func.call(parent, this);
-      //   // }
-      // }
-
-      items[i].onchange = function() {
-        out("-- E: onchange --");
-        out("before: " + this.value);
-        this.value = valueSetDefaultIfNAN(this);
-        this.value = minMaxDef(this);
-        out("after: " + this.value);
-        func.call(parent, this);
-      }
       items[i].onkeyup = function() {
-        out("-- E: onkeyup-- ");
+        params.elem = this;
         
+        if ( event.keyCode == 38
+          || event.keyCode == 40 ){
+            
+            this.value = getValByKeyCode(this, event.keyCode, event.shiftKey);
+            func.call(parent, this);
+          }
+        else {
+          setTimer( parent.checkInputValue, params );
+        }
       }
+      items[i].onchange = function() {
+        params.elem = this;
+        parent.checkInputValue( params );
+      }
+      
       items[i].onblur = function() {
-        out("-- E: blur --");
-        this.value = valueSetDefaultIfNAN(this);
-        this.value = minMaxDef(this);
-        func.call(parent, this);
+        params.elem = this;
+        parent.checkInputValue( params );
       }
     } 
   }
@@ -589,7 +604,7 @@ function shadowPainter() {
 
   this.replaceAnimation = function(animation){
 
-    
+    Output.Animation = "";
     this.deleteKeyframes();
     
     if ( Anim.steps == 1 ){
@@ -607,7 +622,7 @@ function shadowPainter() {
       Anim.keyframes.insertRule(frameRule);
       Output.Animation += frameRule + "\n";
     }
-
+    
     this.restartAnimation();
 
   }
@@ -1026,9 +1041,9 @@ function valueSetDefaultIfNAN(elem){
   if ( isNaN( value ) ){
      return defaultValue;
   }
-  out( "valueSetDefault" );
-  out(value);
-  return value;
+  //out( "valueSetDefault" );
+  //out(value);
+  return false;
 }
 
 function minMaxDef(elem) {
@@ -1040,8 +1055,8 @@ function minMaxDef(elem) {
 
    var value = elem.value;
 
-   value = value > max ? max : value < min ? min : value;
-   return value;
+   var out = value > max ? max : value < min ? min : false;
+   return out;
 }        
 
 function fillTemplate( dataStr, replacements ) {
