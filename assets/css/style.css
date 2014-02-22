@@ -72,10 +72,6 @@ LABEL {
 }
 
 .b-panel {
-  /*position: absolute;
-  left: 0;
-  width: 100%;
-  height: $dotSize + $padding;*/
   padding: 10px;
   color: #888;
 }
@@ -256,6 +252,14 @@ LABEL {
   color: #FFF;
 }
 
+.is-disabled,
+.is-disabled:hover {
+  top: 0;
+  background: #f2f2f2;
+  color: #AAA;
+  cursor: default;
+}
+
 .items--steps {
   display: block;
   margin-top: 10px;
@@ -294,13 +298,17 @@ LABEL {
   color: #FFF;
 }
 
+.is-hidden {
+  display: none;
+}
+
 /* Codes
 ----------------------------- */
 .b-codes {
   /*display: none;*/
   position: absolute;
   z-index: 10;
-  top: -51px;
+  top: 0;
   right: 0;
   left: 0;
   background: rgba(240, 240, 240, 0.9);
