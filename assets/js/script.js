@@ -7,6 +7,7 @@ var line = "------------------------";
 function shadowPainter() {
   var doc = document;
   
+
   var classNames = {
     wrapper: ".l-wrapper",
     paintBox: ".b-box--paint",
@@ -59,7 +60,10 @@ function shadowPainter() {
     inputData: "",
     labelContent: "{i+1}",
     controlClass: "steps-control",
-    currentNum: 0
+    currentNum: 0,
+    customClass: "{customClass}",
+    hiddenClass: "is-hidden",
+    disabledClass: "is-disabled"
   };
 
   var templatesConfig = [Cell, Color, Step];
@@ -77,10 +81,9 @@ function shadowPainter() {
     Animation: "",
     comment: "Created in shadowPainter : )"
   };
-  
 
   var Scene = {
-     oneSide: 10,// dottes in line
+     oneSide: 5,// dottes in line
      oneSideMax: 30,// dottes in line
      size: 250,
      dotSize: 30,// pixels
@@ -89,19 +92,20 @@ function shadowPainter() {
   };
 
   var Anim = {
-    steps: 8,
+    steps: 5,
+    stepsMax: 20,
     duration: "1s",
-    name: "shadows"
+    name: "shadows",
+    keyframes: findKeyFrames("shadows")
   };
-
+  Anim.rules = Anim.keyframes.cssRules;
+  
   var is_opened = false;// codes 
   var classIsRunning = "is-running";
   
   var Frames = {};
   var currentFrame = 0;
   
-  
-
   this.init = function(){
     
 
@@ -118,15 +122,14 @@ function shadowPainter() {
     this.createDurationInp();
     this.createSizeInp();
     this.createDotsInp();
-
   }
+
   
   // FUNCTIONS
   // -----------------------------------------
   
   
   function findKeyFrames(name){
-    var sheets = doc.styleSheets[1].cssRules;
     var keyFrames;
     for (var i = 0; i < doc.styleSheets.length; i++) {
       var stylesList = doc.styleSheets[i].cssRules;
@@ -290,6 +293,7 @@ function shadowPainter() {
     var inputType = item.inputType;
     var data_attr = item.inputData;
     var lblContent = item.labelContent
+    var itemCustomClass = item.customClass ? item.customClass : "";
 
     var itemInpClass = itemType + "__inp";
     var itemLblClass = itemType + "__lbl";
@@ -305,7 +309,7 @@ function shadowPainter() {
 
     var itemInputTempl = "<input type='{inputType}' id='{itemType}-{i}' class='" + itemInpClass +"' name='{itemType}' data-{itemType}-num='{i}' " + data_attr + ">";//
     var itemLabelTempl = "<label for='{itemType}-{i}' class='{itemLblClass} {itemType}--{i}'>{lblContent}</label>";
-    var itemTempl = "<li class='{itemType}'>" + itemInputTempl + itemLabelTempl  +"</li>";
+    var itemTempl = "<li class='{itemType}" + itemCustomClass + "'>" + itemInputTempl + itemLabelTempl  +"</li>";
 
     var result = fillTemplate( itemTempl, replacements );
 
@@ -386,7 +390,6 @@ function shadowPainter() {
       }
     } 
   }
-
   
   // -----------------------------------------
   
@@ -414,7 +417,7 @@ function shadowPainter() {
   
   this.createFramesSet = function() {
     
-    for (var k = 0; k < Anim.steps; k++) {
+    for (var k = 0; k < Anim.stepsMax; k++) {
       Frames[k] = { active: 0 };
 
       for (var hpos = 0; hpos < Scene.oneSideMax; hpos++) { // verticals
@@ -435,7 +438,7 @@ function shadowPainter() {
     };
 
   }
-  
+
   // -----------------------------------------
   
   this.onClickCell = function( elem ) {
@@ -486,13 +489,14 @@ function shadowPainter() {
   // -----------------------------------------
   
   this.paintShadow = function(){
-    
+
     var styles = "";
     var animName = "shadows";
     var animFrames = {};
     
-    var framesLength = objLength(Frames);
-    var perc = (100 / framesLength).toFixed(3);
+    var framesLength = Anim.steps; //objLength(Frames);
+
+    var perc = Anim.steps == 1 ? 0 : (100 / framesLength).toFixed(3);
 
     var dottes = Frames[currentFrame];
     var shadows = this.createShadow( dottes ); 
@@ -514,7 +518,6 @@ function shadowPainter() {
 
     this.replaceAnimation({perc: perc});
 
-    this.updateSteps();
   }
 
   // -----------------------------------------
@@ -565,34 +568,54 @@ function shadowPainter() {
 
   // -----------------------------------------
 
+  this.deleteKeyframes = function() {
+   
+    var rules = Anim.rules;
+    var keyTexts = [];
+
+    if ( rules.length > 0 ){
+      for ( var r = 0; r < rules.length; r++){
+        var keyText = rules[r].keyText;
+        keyTexts.push(keyText);
+      }
+    
+      for (var i = 0; i < keyTexts.length; i++) {
+        Anim.keyframes.deleteRule(keyTexts[i]);
+      };
+    }  
+  }
+
+  // -----------------------------------------
+
   this.replaceAnimation = function(animation){
 
-    var keyframes = findKeyFrames("shadows");
-    var rules = keyframes.cssRules;
-    Output.Animation = "";
     
-    if ( rules.length > 0 ){
-      for ( var keyframe in rules ) {
-        var keyText = rules[keyframe].keyText;
-        keyframes.deleteRule(keyText);
-      }
+    this.deleteKeyframes();
+    
+    if ( Anim.steps == 1 ){
+      this.restartAnimation();
+      return;
     }
 
-    for ( var step in Frames ){
-
-      if ( step == 0 ) continue;
-
+    for ( var step = 0; step < Anim.steps; step++){
+      
       var anim_dottes = Frames[step];
       var anim_shadows = this.createShadow( anim_dottes ); 
 
       var frameRule = animation.perc*step + "% {" + anim_shadows + "}"
-       
-      keyframes.insertRule(frameRule);
+
+      Anim.keyframes.insertRule(frameRule);
       Output.Animation += frameRule + "\n";
     }
 
-    var resultDot = doc.querySelector(classNames.resultDot);
+    this.restartAnimation();
 
+  }
+
+  // -----------------------------------------
+
+  this.restartAnimation  = function (){
+    var resultDot = doc.querySelector(classNames.resultDot);
     resultDot.classList.remove(classIsRunning);
     resultDot.offsetWidth = resultDot.offsetWidth;
     resultDot.classList.add(classIsRunning);
@@ -644,10 +667,13 @@ function shadowPainter() {
 
     Elems.steps.innerHTML += "<h4 class='b-title'>" + controlMinus + " Frames" + controlPlus + "</h4> ";
     
-    for (var i = 0; i < Anim.steps; i++) {
+    for (var i = 0; i < Anim.stepsMax; i++) {
+      var customClass = i < Anim.steps ? "" : " " + Step.hiddenClass;
+
       var replacements = {
         "{i}": i,
         "{i+1}": i+1,
+        "{customClass}": customClass
       };
 
       var stepItem = fillTemplate( Step.template, replacements );
@@ -669,26 +695,60 @@ function shadowPainter() {
     currentFrame = elem.getAttribute("data-step-num");
     this.paintShadow();
     this.updateCells();
-    
   }
 
   // -----------------------------------------
   
   this.onClickStepControl = function( elem ){
-    var action = elem.getAttribute("data-action");
-    out("steps control");  
-    if ( action == "plus") {
-       out("+"); 
-       Anim.steps++;
-    }
-    else if ( action == "minus") {
-       out("-"); 
-       Anim.steps--;
-    }
     
-    // currentFrame = elem.getAttribute("data-step-num");
-    // this.paintShadow();
-    // this.updateCells();    
+    var action = elem.getAttribute("data-action");
+    var stepsItems = doc.querySelectorAll(checkDot(Step.className));    
+    var division = stepsItems[Anim.steps - 1];
+    
+    if ( action == "plus" 
+         && Anim.steps < Anim.stepsMax) {
+
+       Anim.steps++;
+       
+       division.nextSibling.classList.remove(Step.hiddenClass);
+       this.paintShadow();
+
+       if ( Anim.steps == Anim.stepsMax ){
+          elem.classList.add(Step.disabledClass);
+       }
+       else if ( Anim.steps == 2 ){
+          this.enableControls();
+       }
+    }
+    else if ( action == "minus" 
+              && Anim.steps > 1) {
+
+       Anim.steps--;
+       division.classList.add(Step.hiddenClass);
+       this.paintShadow();
+
+       if (Anim.steps == currentFrame ){
+        currentFrame--;
+        var prevInput = doc.querySelectorAll(checkDot (Step.inputClass) )[currentFrame];
+        prevInput.checked = true;
+        }
+
+       if ( Anim.steps == 1 ){
+          elem.classList.add(Step.disabledClass);
+       }
+       else if ( Anim.steps == Anim.stepsMax - 1 ){
+          this.enableControls();
+       }
+    }
+  }
+
+  // -----------------------------------------
+
+  this.enableControls = function() {
+    var disabledItem = doc.querySelector(checkDot(Step.disabledClass));
+    if ( disabledItem ){
+     disabledItem.classList.remove(Step.disabledClass);
+    }  
   }
   
   // -----------------------------------------
@@ -765,7 +825,6 @@ function shadowPainter() {
 
   // -----------------------------------------
 
-
   this.createOutputCss = function(){
    var styles = "";
    
@@ -788,7 +847,6 @@ function shadowPainter() {
 
     styles += "\n/* Keyframes */\n";
     
-    //out( Output.Animation );
     var animation = "\n@-webkit-keyframes shadows {\n" + Output.Animation + "\n}\n";
     animation += "@keyframes shadows {\n" + Output.Animation + "\n}\n";
     styles += animation;
@@ -812,7 +870,6 @@ function shadowPainter() {
 
   this.onChangeDuration = function(elem, key){
     Anim.duration = elem.value + "s";
-    //this.addConfig();
     this.paintShadow();
   }
 
@@ -862,8 +919,20 @@ function shadowPainter() {
 // Common
 // -----------------------------------------
 
-function out ( data ) {
-  console.log( data );
+function out ( data, is_style, color ) {
+  //out( arguments.callee );
+  //style  =  style || null;
+  var style;
+  if ( is_style ){
+    color = color || "orangered";
+    style = "color: " + color + "; padding-left: 20px;";
+    data = "%c" + data;
+    console.log( data, style );
+  }
+  else {
+    console.log( data );
+  }
+  
 }
 
 function checkDot ( className ){
