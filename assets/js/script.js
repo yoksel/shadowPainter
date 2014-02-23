@@ -403,9 +403,9 @@ function shadowPainter() {
     
     for (var i = 0; i < items.length; i++) {
       
-      items[i].onkeyup = function() {
+      items[i].onkeyup = function(event) {
         params.elem = this;
-        
+
         if ( event.keyCode == 38
           || event.keyCode == 40 ){
             
