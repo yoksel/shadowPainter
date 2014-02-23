@@ -838,7 +838,8 @@ function shadowPainter() {
         is_opened = true; 
         text = textClose;
       }
-      Elems.codesToggle.innerText = text;
+
+      Elems.codesToggle.innerHTML = text;
 
       Elems.codes.classList.toggle("is-open");
       
