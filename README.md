@@ -3,4 +3,4 @@ ShadowPainter
 
 Js-creator of box-shadow animation. Just for fun  : )
 
-Not ready for use.
+Play with it <a href="http://yoksel.github.io/shadowPainter/">yoksel.github.io/shadowPainter/</a>
