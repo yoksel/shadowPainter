@@ -198,6 +198,42 @@ LABEL {
   box-shadow: 0 0 0 3px rgba(0, 0, 0, .3);
 }
 
+/* Color Controls
+----------------------------- */
+.items--colors-controls {
+  display: inline-block;  
+  position: relative;
+  height: $dotSize;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+.colors-controls__item {
+  position: absolute;
+  border: 10px solid transparent;
+  border-color: $color-step-d transparent;
+  border-width: 10px 4px;
+  cursor: pointer;
+  &:hover {
+    border-color: darken($color-step-d, 10) transparent;
+  }
+  &:active {
+    border-color: darken($color-step-d, 30) transparent;
+  }
+}
+.colors-controls__item-up {
+  top: 0;
+  border-top: 0;
+  &:active {
+    top: 2px;
+  }
+}
+.colors-controls__item-down {
+  bottom: 0;
+  border-bottom: 0;
+  &:active {
+    bottom: -2px;
+  }
+}
 /* Panel
 ----------------------------- */
 .b-panel__item {

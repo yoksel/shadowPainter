@@ -35,20 +35,36 @@ function shadowPainter() {
     dots: "<span class=\"dot dot--previous\"></span><span class=\"dot\"></span>"
   };
 
+  var Palettes = [
+      ["#3FB8AF","#7FC7AF","#DAD8A7","#FF9E9D","#FF3D7F"],
+      ["#468966","#FFF0A5","#FFB03B","#B64926","#8E2800"],
+      ["#004358","#1F8A70","#BEDB39","#FFE11A","#FD7400"],
+      ["#96CA2D","#B5E655","#EDF7F2","#4BB5C1","#7FC6BC"],
+      ["#2E0927","#D90000","#FF2D00","#FF8C00","#04756F"],
+      ["#FCFFF5","#D1DBBD","#91AA9D","#3E606F","#193441"],
+      ["#332532","#644D52","#F77A52","#FF974F","#A49A87"]
+    ];
+
   var Color = {
     className: "color",
     inputType: "radio",
     inputClass: "color__inp",
     inputData: "data-color=\"{color}\" ",
+  
     labelContent: "",
-    
-    list: ["#3FB8AF","#7FC7AF","#DAD8A7","#FF9E9D","#FF3D7F"],
+    controlClass: "colors-controls__item",
     transparent: "rgba(255,255,255,0)",
     currentNum: 0,
   };
+
+  Color.currentListNum = 0;
+  Color.list = Palettes[Color.currentListNum];
+  
   Color.current = Color.list[0];
   Color.classCurrent = Color.className + "--" + Color.currentNum;
+
   Color.StyleTempl = "." + Color.className + "--{i} {background: {color};}\n";
+  Color.controlTempl = "<li class=\"{itemsClass} {itemsClass}-{direction}\" data-direction=\"{direction}\"></li>"
 
   
   var Step = {
@@ -276,6 +292,7 @@ function shadowPainter() {
   }
 
   // -----------------------------------------
+
   this.createStylesBoxes = function () {
      for ( var styleBox in stylesClassNames ){
         Styles[styleBox] = addStylesBox(stylesClassNames[styleBox]); 
@@ -340,9 +357,11 @@ function shadowPainter() {
 
     itemsClass = checkDot ( itemsClass );
     var items = doc.querySelectorAll(itemsClass);
+
     var parent = this;
     
     for (var i = 0; i < items.length; i++) {
+
       items[i].onclick = function() {
         func.call(parent, this);
       }
@@ -650,10 +669,30 @@ function shadowPainter() {
   // -----------------------------------------
   
   this.createPalette = function () {
-    var styles = "";
     var output = "";
     
     Elems.palette.innerHTML += "<h4 class='b-title'>Colors</h4> ";
+    Elems.palette.innerHTML += "<ul class=\"items items--colors\"></ul>";
+    Elems.palette.innerHTML += "<ul class=\"items items--colors-controls\"></ul>";
+
+    this.fillPalette();
+    this.addEvents( Color.inputClass, this.onClickColor );
+    
+    var first = doc.querySelector( checkDot(Color.inputClass) );
+    first.checked = true;
+    
+    this.addColorsControls();
+    this.addEvents( Color.controlClass, this.onClickColorControl );
+  }
+
+  // -----------------------------------------
+  
+  this.fillPalette = function () {
+    var output = "";
+
+    var colorsItems = doc.querySelector(".items--colors");
+
+    Styles.colors.innerHTML = "";
 
     for (var i = 0; i < Color.list.length; i++) {
       var replacements = {
@@ -664,24 +703,87 @@ function shadowPainter() {
       var colorStyle = fillTemplate( Color.StyleTempl, replacements );
       Styles.colors.innerHTML += colorStyle;
       output += colorItem;
-    }  
+    } 
 
-    Elems.palette.innerHTML += "<ul class=\"items items--colors\">" + output + "</ul>";
-
-    var first = doc.querySelector( checkDot(Color.inputClass) );
-    first.checked = true;
+    colorsItems.innerHTML = output;
     
-    this.addEvents( Color.inputClass, this.onClickColor );
+  }
+
+  // -----------------------------------------
+  
+  this.reFillPalette = function () {
+    var output = "";
+
+    var colorsItems = doc.querySelectorAll(checkDot(Color.inputClass));
+
+    Styles.colors.innerHTML = "";
+
+    for (var i = 0; i < Color.list.length; i++) {
+
+      colorsItems[i].setAttribute("data-color", Color.list[i]);
+      var replacements = {
+        "{i}": i,
+        "{color}": Color.list[i]
+      };
+      var colorStyle = fillTemplate( Color.StyleTempl, replacements );
+      Styles.colors.innerHTML += colorStyle;
+    } 
+  }
+
+  // -----------------------------------------
+  
+  this.addColorsControls = function () {
+    var controlsDirects = ["up", "down"];
+    
+    var controlsItems = doc.querySelector(".items--colors-controls");
+
+    for (var i = 0; i < controlsDirects.length; i++) {
+      var replacements = {
+        "{direction}": controlsDirects[i],
+        "{itemsClass}": Color.controlClass
+      };
+      var colorControlItem = fillTemplate( Color.controlTempl, replacements );
+      controlsItems.innerHTML += colorControlItem;
+    } 
+
   }
 
   // -----------------------------------------
   
   this.onClickColor = function( elem ){
+
     Color.current = elem.getAttribute("data-color");
     Color.currentNum = elem.getAttribute("data-color-num");
     Color.classCurrent = Color.className + "--" + Color.currentNum;
   }
 
+  // -----------------------------------------
+
+  this.onClickColorControl = function( elem ){
+    var direct = elem.getAttribute("data-direction");
+    var max = Palettes.length - 1;
+
+    if ( direct == "up" ){
+      if ( Color.currentListNum < max ){
+        Color.currentListNum++;
+        }
+      else {
+        Color.currentListNum = 0;
+      }  
+    }
+    else {
+      if ( Color.currentListNum > 0 ){
+        Color.currentListNum--;
+        }
+      else {
+        Color.currentListNum = max;
+      }  
+    }
+    Color.list = Palettes[Color.currentListNum];
+    Color.current = Color.list[Color.currentNum];
+    Color.classCurrent = Color.className + "--" + Color.currentNum;
+    this.reFillPalette();
+  }
   // -----------------------------------------
   
   this.createSteps = function(){
