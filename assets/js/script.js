@@ -103,7 +103,10 @@ function shadowPainter() {
   
   var Frames = {};
   var currentFrame = 0;
-  
+
+  var uAgent = navigator.userAgent;
+  var browser = uAgent.indexOf("WebKit") > 0 ? "webkit" : "firefox";
+
   this.init = function(){
     
 
@@ -619,7 +622,15 @@ function shadowPainter() {
 
       var frameRule = animation.perc*step + "% {" + anim_shadows + "}"
 
-      Anim.keyframes.insertRule(frameRule);
+      // 0_o
+      if ( browser == "firefox" ){
+        Anim.keyframes.appendRule(frameRule);
+        }
+      else {
+        Anim.keyframes.insertRule(frameRule);
+      }  
+
+      
       Output.Animation += frameRule + "\n";
     }
     
