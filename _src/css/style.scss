@@ -18,12 +18,25 @@ $color-step-d: darken($color-step, 20);
   clear: both;
 }
 
+@mixin dotted-text($color: #555) {
+  border-bottom: 1px dotted;
+  line-height: 1.2;
+  color: $color;
+  cursor: pointer;
+}
+
 $time: 1s;
 
 @import "reset";
 
 * {
 box-sizing: border-box;
+}
+
+BODY {
+  background: #FFF;
+  font: 14px/1.4 'Trebuchet MS', Verdana, sans-serif;
+  color: #333;
 }
 
 LABEL {
@@ -132,15 +145,10 @@ LABEL {
 }
 :checked + .cell__lbl {
   position: relative;
-/*  z-index: 5;
-  background: gold;
-  opacity: .5*/
   }
 .is-colored {
   background: $color-active;
 }
-
-
 
 /* Result Box 
 ----------------------------- */
@@ -160,10 +168,7 @@ LABEL {
   opacity: .2;
 }
 
-//.b-box--result .dot
 .is-running{
- /*-webkit-animation: $time shadows linear infinite;
-  animation: $time shadows linear infinite;*/
 }
 
 @keyframes shadows {}
@@ -180,7 +185,6 @@ LABEL {
 }
 .color {
   display: inline-block;
-  /*float: left;*/
   width: $dotSize;
   height: $dotSize;
   }
@@ -220,14 +224,14 @@ LABEL {
     border-color: darken($color-step-d, 30) transparent;
   }
 }
-.colors-controls__item-up {
+.colors-controls__item--up {
   top: 0;
   border-top: 0;
   &:active {
     top: 2px;
   }
 }
-.colors-controls__item-down {
+.colors-controls__item--down {
   bottom: 0;
   border-bottom: 0;
   &:active {
@@ -236,6 +240,9 @@ LABEL {
 }
 /* Panel
 ----------------------------- */
+.b-panel {
+  position: relative;
+  }  
 .b-panel__item {
   float: left;
   margin-left: $padding*1.6;
@@ -333,6 +340,26 @@ LABEL {
   display: none;
 }
 
+.frames-clear {
+  position: absolute;
+  top: $padding/2;
+  &:hover {
+    padding-top: 1px;
+  }
+}
+
+.frames-clear--current {
+  left: $padding/2;
+  @include dotted-text;
+}
+.frames-clear--all {
+  right: $padding/2;
+  @include dotted-text(orangered);
+}
+
+.is--sleepy {
+  color: #777
+}
 /* Codes
 ----------------------------- */
 .b-codes {
@@ -358,9 +385,10 @@ LABEL {
   position: absolute;
   top: -$padding*1.2;
   right: $padding/2;
-  border-bottom: 1px dotted;
-  color: #555;
-  cursor: pointer;
+  @include dotted-text;
+  &:hover {
+    padding-top: 1px;
+  }
 }
 .b-codes__wrapper {
   display: none;

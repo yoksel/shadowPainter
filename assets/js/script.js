@@ -67,7 +67,17 @@ function shadowPainter() {
 
   Color.StyleTempl = "." + Color.className + "--{i} {background: {color};}\n";
   Color.controlTempl = "<li class=\"{itemsClass} {itemsClass}-{direction}\" data-direction=\"{direction}\"></li>"
-
+ 
+  Color.upDown = {
+    list: {
+      "up": "",
+      "down": ""
+    },
+    replacements: {
+      "{itemsClass}": Color.controlClass
+    },
+    template: "<li class=\"{itemsClass} {itemsClass}--{action}\" data-action=\"{action}\"></li>"
+  };
   
   var Step = {
     className: "step",
@@ -76,12 +86,37 @@ function shadowPainter() {
     inputData: "",
     labelContent: "{i+1}",
     controlClass: "steps-control",
+    clearFramesClass: "frames-clear",
+
     currentNum: 0,
     customClass: "{customClass}",
     hiddenClass: "is-hidden",
     disabledClass: "is-disabled"
   };
+  Step.plusMinus = {
+    list: {
+      "minus": "&ndash;",
+      "plus": "+"
+    },
+    replacements: {
+      "{itemsClass}": Step.controlClass
+    },
+    template: "<span class=\"{itemsClass} {itemsClass}--{action}\" data-action=\"{action}\">{text}</span>",
+    insertBetween: "Frames"
+  };
 
+  Step.clearFrames = {
+    list: {
+      "current": "Clear current frame",
+      "all": "Clear all frames"
+    },
+    replacements: {
+      "{itemsClass}": Step.clearFramesClass
+    },
+    template: "<span class=\"{itemsClass} {itemsClass}--{action}\" data-action=\"{action}\">{text}</span>"
+  };
+
+  
   var templatesConfig = [Cell, Color, Step];
 
   var stylesClassNames = {
@@ -162,6 +197,8 @@ function shadowPainter() {
 
     return keyFrames;
   }
+
+  // -----------------------------------------
 
   function setTimer( func, params ) {
     if ( timer ){
@@ -346,6 +383,25 @@ function shadowPainter() {
 
   // -----------------------------------------
 
+  this.createControls = function( data ) {
+    var output = "";
+    
+    var counter = 0;
+    for (var item in data.list ){
+      data.replacements["{action}"] = item;
+      data.replacements["{text}"] = data.list[ item ];
+      output += fillTemplate( data.template, data.replacements );
+
+      if ( counter == 0 && data.insertBetween ){
+        output += data.insertBetween;
+      }
+      counter++;
+    }
+    return output;
+  }
+
+  // -----------------------------------------
+
   this.addDataDefautlt = function( elem, defaultValue){
     var defData = elem.getAttribute("data-default");
     if ( defData == null ){
@@ -367,8 +423,6 @@ function shadowPainter() {
       items[i].onclick = function() {
         func.call(parent, this);
       }
-
-      
     } 
   }
 
@@ -397,7 +451,6 @@ function shadowPainter() {
           func.call(parent, this);
         }
       }
-
     } 
   }
 
@@ -487,7 +540,7 @@ function shadowPainter() {
   // -----------------------------------------
   
   this.createFramesSet = function() {
-    
+
     for (var k = 0; k < Anim.stepsMax; k++) {
       Frames[k] = { active: 0 };
 
@@ -505,6 +558,23 @@ function shadowPainter() {
       } // End verticals
 
     };
+  }
+
+  // -----------------------------------------
+  
+  this.resetCurrentFrame = function(frame) {
+
+    k = currentFrame;
+    Frames[k] = { active: 0 };
+
+    for (var hpos = 0; hpos < Scene.oneSideMax; hpos++) { // verticals
+      Frames[k][hpos] = {};
+      for (var vpos = 0; vpos < Scene.oneSideMax; vpos++) { // gorizontals
+        Frames[k][hpos][vpos] = {
+          "color": Color.transparent
+        };        
+      }  // End gorizontals
+    } // End verticals
 
   }
 
@@ -709,7 +779,7 @@ function shadowPainter() {
     
     Elems.palette.innerHTML += "<h4 class='b-title'>Colors</h4> ";
     Elems.palette.innerHTML += "<ul class=\"items items--colors\"></ul>";
-    Elems.palette.innerHTML += "<ul class=\"items items--colors-controls\"></ul>";
+    Elems.palette.innerHTML += "<ul class=\"items items--colors-controls\">" + this.createControls( Color.upDown ) +"</ul>";
 
     this.fillPalette();
     this.addEvents( Color.inputClass, this.onClickColor );
@@ -717,7 +787,6 @@ function shadowPainter() {
     var first = doc.querySelector( checkDot(Color.inputClass) );
     first.checked = true;
     
-    this.addColorsControls();
     this.addEvents( Color.controlClass, this.onClickColorControl );
   }
 
@@ -768,24 +837,6 @@ function shadowPainter() {
 
   // -----------------------------------------
   
-  this.addColorsControls = function () {
-    var controlsDirects = ["up", "down"];
-    
-    var controlsItems = doc.querySelector(".items--colors-controls");
-
-    for (var i = 0; i < controlsDirects.length; i++) {
-      var replacements = {
-        "{direction}": controlsDirects[i],
-        "{itemsClass}": Color.controlClass
-      };
-      var colorControlItem = fillTemplate( Color.controlTempl, replacements );
-      controlsItems.innerHTML += colorControlItem;
-    } 
-
-  }
-
-  // -----------------------------------------
-  
   this.onClickColor = function( elem ){
 
     Color.current = elem.getAttribute("data-color");
@@ -825,12 +876,9 @@ function shadowPainter() {
   this.createSteps = function(){
     var output = "";
     
-    var controlPlus = "<span class=\"steps-control steps-control--plus\" data-action=\"plus\">+</span>";
-    var controlMinus = "<span class=\"steps-control steps-control--minus\" data-action=\"minus\">&ndash;</span>";
+    Elems.steps.innerHTML += "<h4 class='b-title'>" + this.createControls( Step.plusMinus ) + "</h4> ";
 
 
-    Elems.steps.innerHTML += "<h4 class='b-title'>" + controlMinus + " Frames" + controlPlus + "</h4> ";
-    
     for (var i = 0; i < Anim.stepsMax; i++) {
       var customClass = i < Anim.steps ? "" : " " + Step.hiddenClass;
 
@@ -846,11 +894,15 @@ function shadowPainter() {
     
     Elems.steps.innerHTML += "<ul class=\"items items--steps\">" + output + "</ul>";
 
+    Elems.steps.innerHTML += this.createControls( Step.clearFrames );
+
     var first = doc.querySelector(checkDot (Step.inputClass) );
     first.checked = true;
 
     this.addEvents( Step.inputClass, this.onClickStep );
     this.addEvents( Step.controlClass, this.onClickStepControl );
+    this.addEvents( Step.clearFramesClass, this.onClickClearFrames );
+
   }
 
   // -----------------------------------------
@@ -913,6 +965,25 @@ function shadowPainter() {
     if ( disabledItem ){
      disabledItem.classList.remove(Step.disabledClass);
     }  
+  }
+
+  // -----------------------------------------
+  
+  this.onClickClearFrames = function( elem ){
+    
+    var action = elem.getAttribute("data-action");
+
+    if ( action == "all" ){
+      this.createFramesSet();
+      this.paintShadow();
+      this.updateCells();
+    }
+    else {
+      this.resetCurrentFrame();
+      this.paintShadow();
+      this.updateCells();
+    }
+
   }
   
   // -----------------------------------------
