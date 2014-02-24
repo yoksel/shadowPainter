@@ -439,18 +439,18 @@ function shadowPainter() {
 
       items[i].onmousedown = function() {
         isMousePressed = true;
-        func.call(parent, this);
       }
 
       items[i].onmouseup = function() {
         isMousePressed = false;
       }
-
+      
       items[i].onmouseover = function() {
         if ( isMousePressed ){
           func.call(parent, this);
         }
       }
+      
     } 
   }
 
@@ -535,6 +535,7 @@ function shadowPainter() {
     Elems.paintBox.innerHTML += "<ul class=\"items items--dots\">" + output + "</ul>";
     
     this.addOverEvents( Cell.labelClass, this.onOverLabel);
+    this.addEvents( Cell.inputClass, this.onClickCell);
   }
 
   // -----------------------------------------
@@ -593,18 +594,29 @@ function shadowPainter() {
    classes.add(findClass + Color.currentNum);
   }
 
+
+  // -----------------------------------------
+
+  this.onClickCell = function(elem) {
+    this.updateFrames( elem );
+  } 
+
   // -----------------------------------------
 
   this.onOverLabel = function(elem) {
     var input = elem.previousSibling;
 
-    if ( input.checked ){
+    var input = elem.previousSibling;
+
+    if ( input.checked == true ){
       input.checked = false;
     }
     else {
       input.checked = true;
     }
+
     this.updateFrames( input );
+  
   }
 
   // -----------------------------------------
