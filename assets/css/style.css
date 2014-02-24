@@ -23,6 +23,12 @@ ol, ul {
   box-sizing: border-box;
 }
 
+BODY {
+  background: #FFF;
+  font: 14px/1.4 'Trebuchet MS', Verdana, sans-serif;
+  color: #333;
+}
+
 LABEL {
   cursor: pointer;
 }
@@ -126,9 +132,6 @@ LABEL {
 
 :checked + .cell__lbl {
   position: relative;
-  /*  z-index: 5;
-    background: gold;
-    opacity: .5*/
 }
 
 .is-colored {
@@ -153,11 +156,6 @@ LABEL {
   opacity: .2;
 }
 
-.is-running {
-  /*-webkit-animation: $time shadows linear infinite;
-   animation: $time shadows linear infinite;*/
-}
-
 @keyframes shadows {}
 @-webkit-keyframes shadows {}
 /* Palette
@@ -173,7 +171,6 @@ LABEL {
 
 .color {
   display: inline-block;
-  /*float: left;*/
   width: 30px;
   height: 30px;
 }
@@ -218,24 +215,28 @@ LABEL {
   border-color: #535353 transparent;
 }
 
-.colors-controls__item-up {
+.colors-controls__item--up {
   top: 0;
   border-top: 0;
 }
-.colors-controls__item-up:active {
+.colors-controls__item--up:active {
   top: 2px;
 }
 
-.colors-controls__item-down {
+.colors-controls__item--down {
   bottom: 0;
   border-bottom: 0;
 }
-.colors-controls__item-down:active {
+.colors-controls__item--down:active {
   bottom: -2px;
 }
 
 /* Panel
 ----------------------------- */
+.b-panel {
+  position: relative;
+}
+
 .b-panel__item {
   float: left;
   margin-left: 32px;
@@ -342,6 +343,34 @@ LABEL {
   display: none;
 }
 
+.frames-clear {
+  position: absolute;
+  top: 10px;
+}
+.frames-clear:hover {
+  padding-top: 1px;
+}
+
+.frames-clear--current {
+  left: 10px;
+  border-bottom: 1px dotted;
+  line-height: 1.2;
+  color: #555555;
+  cursor: pointer;
+}
+
+.frames-clear--all {
+  right: 10px;
+  border-bottom: 1px dotted;
+  line-height: 1.2;
+  color: orangered;
+  cursor: pointer;
+}
+
+.is--sleepy {
+  color: #777777;
+}
+
 /* Codes
 ----------------------------- */
 .b-codes {
@@ -368,8 +397,12 @@ LABEL {
   top: -24px;
   right: 10px;
   border-bottom: 1px dotted;
-  color: #555;
+  line-height: 1.2;
+  color: #555555;
   cursor: pointer;
+}
+.b-codes__toggle:hover {
+  padding-top: 1px;
 }
 
 .b-codes__wrapper {
