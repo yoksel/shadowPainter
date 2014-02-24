@@ -429,3 +429,42 @@ LABEL {
 .textarea--css {
   margin-bottom: 20px;
 }
+
+.hello {
+  display: none;
+  position: absolute;
+  z-index: 10;
+  height: 150px;
+  width: 100%;
+  top: -1em;
+  bottom: -1em;
+  margin: auto;
+  background: rgba(0, 0, 0, 0.3);
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  color: #FFF;
+}
+.hello H2 {
+  margin-bottom: 10px;
+  font-size: 4em;
+}
+.hello SPAN {
+  font-size: 2em;
+}
+.hello:before {
+  content: "";
+  display: inline-block;
+  height: 150px;
+  vertical-align: middle;
+}
+
+.hello__text {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+@media (max-width: 760px) {
+  .hello {
+    display: block;
+  }
+}

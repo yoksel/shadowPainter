@@ -5,6 +5,8 @@ $radius: 0;
 
 $padding: 20px;
 
+$hello-height: 150px;
+
 $color-border: #CCC;
 $color-active: orange;
 $color-step: lightgray;
@@ -413,3 +415,40 @@ LABEL {
     margin-bottom: $padding;  
     }
 
+
+.hello {
+  display: none;
+  position: absolute;
+  z-index: 10;
+  height: $hello-height;
+  width: 100%;
+  top: -1em;
+  bottom: -1em;
+  margin: auto;
+  background: rgba(0,0,0,.3);
+  text-shadow: 0 0 3px rgba(0,0,0,.5);
+  text-align: center;
+  color: #FFF;
+  H2 { 
+  margin-bottom: 10px;  
+  font-size: 4em;
+  }
+  SPAN {
+    font-size: 2em;
+  }
+  &:before {
+    content: "";
+    display: inline-block;
+    height: $hello-height;
+    vertical-align: middle;
+  }
+}
+.hello__text {
+display: inline-block;
+  vertical-align: middle;
+}
+@media (max-width: 760px){
+  .hello {
+    display: block;
+  }
+}
