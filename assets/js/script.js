@@ -5,6 +5,7 @@ function shadowPainter() {
   var doc = document;
 
   var timer = 0;
+  var isMousePressed = false;
 
   var classNames = {
     wrapper: ".l-wrapper",
@@ -30,6 +31,7 @@ function shadowPainter() {
     className: "cell",
     inputType: "checkbox",
     inputClass: "cell__inp",
+    labelClass: "cell__lbl",
     inputData: "data-hpos=\"{hpos}\"  data-vpos=\"{vpos}\" ",
     labelContent: "",
     dots: "<span class=\"dot dot--previous\"></span><span class=\"dot\"></span>"
@@ -365,6 +367,37 @@ function shadowPainter() {
       items[i].onclick = function() {
         func.call(parent, this);
       }
+
+      
+    } 
+  }
+
+  // -----------------------------------------
+  
+  this.addOverEvents = function ( itemsClass, func ){
+
+    itemsClass = checkDot ( itemsClass );
+    var items = doc.querySelectorAll(itemsClass);
+
+    var parent = this;
+    
+    for (var i = 0; i < items.length; i++) {
+
+      items[i].onmousedown = function() {
+        isMousePressed = true;
+        func.call(parent, this);
+      }
+
+      items[i].onmouseup = function() {
+        isMousePressed = false;
+      }
+
+      items[i].onmouseover = function() {
+        if ( isMousePressed ){
+          func.call(parent, this);
+        }
+      }
+
     } 
   }
 
@@ -447,7 +480,8 @@ function shadowPainter() {
       output += checkBox;
     }  
     Elems.paintBox.innerHTML += "<ul class=\"items items--dots\">" + output + "</ul>";
-    this.addEvents( Cell.inputClass, this.onClickCell);
+    
+    this.addOverEvents( Cell.labelClass, this.onOverLabel);
   }
 
   // -----------------------------------------
@@ -461,9 +495,7 @@ function shadowPainter() {
         Frames[k][hpos] = {};
 
         for (var vpos = 0; vpos < Scene.oneSideMax; vpos++) { // gorizontals
-          //var hpos = i % Scene.oneSide + 1;
-          //var vpos = Math.floor(i / Scene.oneSide) + 1;
-
+          
           Frames[k][hpos][vpos] = {
             "hpos": hpos,
             "vpos": vpos,
@@ -474,16 +506,6 @@ function shadowPainter() {
 
     };
 
-  }
-
-  // -----------------------------------------
-  
-  this.onClickCell = function( elem ) {
-    
-    if( elem !== undefined ){
-     var cellLbl = elem.nextSibling;
-     this.updateFrames( elem );
-    }
   }
 
   // -----------------------------------------
@@ -499,6 +521,20 @@ function shadowPainter() {
      }
     }
    classes.add(findClass + Color.currentNum);
+  }
+
+  // -----------------------------------------
+
+  this.onOverLabel = function(elem) {
+    var input = elem.previousSibling;
+
+    if ( input.checked ){
+      input.checked = false;
+    }
+    else {
+      input.checked = true;
+    }
+    this.updateFrames( input );
   }
 
   // -----------------------------------------
