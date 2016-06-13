@@ -55,6 +55,7 @@ LABEL {
   bottom: 1em;
   border: 1px solid $color-border;
   white-space: nowrap;
+
   &:after {
     @include clear;
     }
@@ -112,13 +113,13 @@ LABEL {
   margin: 0 auto;
   padding: 0;
   }
-  
-/* Paint Box 
+
+/* Paint Box
 ----------------------------- */
 .b-box--paint {
   overflow: hidden;
   border-width: 0 1px 1px 0;
-  background-image: 
+  background-image:
     linear-gradient( to right,
       $color-border 1px,
       transparent 1px
@@ -129,7 +130,7 @@ LABEL {
     );
   background-position: 0 0;
 }
-/* Labels 
+/* Labels
 ----------------------------- */
 .cell {
   display: block;
@@ -141,7 +142,7 @@ LABEL {
   }
 .cell__lbl {
   display: block;
-  border-radius: $radius; 
+  border-radius: $radius;
   /*box-shadow: 0 0 2px #999 inset;*/
 
 }
@@ -152,19 +153,19 @@ LABEL {
   background: $color-active;
 }
 
-/* Result Box 
+/* Result Box
 ----------------------------- */
 .b-box--result {
   overflow: hidden;
   }
 
-/* Dotts 
+/* Dotts
 ----------------------------- */
 
 .dot {
   display: block;
   position: absolute;
-  border-radius: $radius; 
+  border-radius: $radius;
 }
 .dot--previous {
   opacity: .2;
@@ -178,7 +179,7 @@ LABEL {
 
 /* Palette
 ----------------------------- */
-.b-palette {  
+.b-palette {
   display: inline-block;
 }
 .items--colors {
@@ -207,7 +208,7 @@ LABEL {
 /* Color Controls
 ----------------------------- */
 .items--colors-controls {
-  display: inline-block;  
+  display: inline-block;
   position: relative;
   height: $dotSize;
   margin-left: 5px;
@@ -244,7 +245,7 @@ LABEL {
 ----------------------------- */
 .b-panel {
   position: relative;
-  }  
+  }
 .b-panel__item {
   float: left;
   margin-left: $padding*1.6;
@@ -266,10 +267,10 @@ LABEL {
 ----------------------------- */
 .b-steps {
   text-align: center;
-  -webkit-user-select: none;  
-  -moz-user-select: none;  
-  -ms-user-select: none;   
-  user-select: none;   
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .steps-control {
   display: inline-block;
@@ -287,19 +288,19 @@ LABEL {
   transition: all .2s;
   }
 .steps-control:hover {
-  top: -1px;  
+  top: -1px;
   background: $color-step-l;
   color: #555;
 }
 .steps-control:active {
-  top: 1px; 
+  top: 1px;
   background: $color-step-d;
   color: #FFF;
 }
 
 .is-disabled,
 .is-disabled:hover  {
-  top: 0; 
+  top: 0;
   background: $color-step-l;
   color: #AAA;
   cursor: default;
@@ -366,7 +367,7 @@ LABEL {
 ----------------------------- */
 .b-codes {
   /*display: none;*/
-  
+
   position: absolute;
   z-index: 10;
   top: 0;
@@ -374,7 +375,7 @@ LABEL {
   left: 0;
   background: rgba(240, 240, 240, .9);
   box-shadow: 0 0 20px rgba(0, 0, 0, .3);
- 
+
 }
 .is-open {
   right: -.5em;
@@ -412,7 +413,7 @@ LABEL {
   border: 1px solid $color-border;
   }
 .textarea--css {
-    margin-bottom: $padding;  
+    margin-bottom: $padding;
     }
 
 
@@ -429,8 +430,8 @@ LABEL {
   text-shadow: 0 0 3px rgba(0,0,0,.5);
   text-align: center;
   color: #FFF;
-  H2 { 
-  margin-bottom: 10px;  
+  H2 {
+  margin-bottom: 10px;
   font-size: 4em;
   }
   SPAN {
