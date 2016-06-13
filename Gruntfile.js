@@ -18,12 +18,6 @@ module.exports = function (grunt) {
       css_res: [
         'assets/css'
       ],
-      img_src: [
-        '_src/img'
-      ],
-      img_res: [
-        'assets/img'
-      ],
       js_src: [
         '_src/js/*.js'
       ],
@@ -95,47 +89,10 @@ module.exports = function (grunt) {
         '_src/css/style.unprefixed.css'
       ],
       build: [
-        '_site/Gemfile',
-        '_site/Gemfile.lock',
-        '_site/Gruntfile.js',
-        '_site/package.json',
-        '_site/node_modules',
         '_src/css/style.prefixed.css',
         '_src/css/style.unprefixed.css'
       ]
     },
-    svgmin: {                        
-        options: {                   
-            plugins: [{
-                removeViewBox: false
-            }]
-        },
-        // dist: {                      
-        //     files: {                 
-        //         '_src/img/star2.svg': '_src/img/star.svg'        // 'destination': 'source'
-        //     }
-        // }
-        dist: {                        // Target
-            files: [{                // Dictionary of files
-                expand: true,        // Enable dynamic expansion.
-                cwd: '_src/img',        // Src matches are relative to this path.
-                src: ['**/*.svg'],    // Actual pattern(s) to match.
-                dest: 'assets/img',        // Destination path prefix.
-                ext: '.svg'        // Dest filepaths will have this extension.
-                // ie: optimise img/src/branding/logo.svg and store it in img/branding/logo.min.svg
-            }]
-        }
-    },  
-    imagemin: {
-      dynamic: {   
-        files: [{
-          expand: true,
-          cwd: '_src/img',                   
-          src: ['**/*.{png,jpg,gif}'],   
-          dest: 'assets/img'             
-        }]
-      }
-    }, 
 
     /**
      * JSHint
@@ -165,7 +122,7 @@ module.exports = function (grunt) {
         },
       },
       js: {
-        files: '<%= project.js_res %>22{,*/}*.{js}',
+        files: '<%= project.js_res %>{,*/}*.{js}',
         tasks: ['jshint'],
         options: {
           livereload: 35740,
@@ -198,8 +155,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-open');
   grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-svgmin');
-  grunt.loadNpmTasks('grunt-contrib-imagemin');
   grunt.loadNpmTasks('grunt-contrib-jshint');
 
   /**

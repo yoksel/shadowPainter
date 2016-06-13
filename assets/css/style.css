@@ -41,7 +41,7 @@ LABEL {
   right: 1em;
   top: 1em;
   bottom: 1em;
-  border: 1px solid #cccccc;
+  border: 1px solid #CCC;
   white-space: nowrap;
 }
 .l-wrapper:after {
@@ -54,7 +54,7 @@ LABEL {
 .b-boxes {
   position: relative;
   text-align: center;
-  border: 1px solid #cccccc;
+  border: 1px solid #CCC;
   border-width: 1px 0;
 }
 
@@ -71,7 +71,7 @@ LABEL {
 .b-box {
   position: relative;
   display: inline-block;
-  border: 1px solid #cccccc;
+  border: 1px solid #CCC;
 }
 .b-box:nth-of-type(1) {
   margin-right: 20px;
@@ -101,18 +101,18 @@ LABEL {
   padding: 0;
 }
 
-/* Paint Box 
+/* Paint Box
 ----------------------------- */
 .b-box--paint {
   overflow: hidden;
   border-width: 0 1px 1px 0;
-  background-image: -webkit-gradient(linear, left top, right top, from(#cccccc), to(transparent)), -webkit-gradient(linear, left top, left bottom, from(#cccccc), to(transparent));
-  background-image: -webkit-linear-gradient(left, #cccccc 1px, transparent 1px), -webkit-linear-gradient(top, #cccccc 1px, transparent 1px);
-  background-image: linear-gradient(to right, #cccccc 1px, transparent 1px), linear-gradient(to bottom, #cccccc 1px, transparent 1px);
+  background-image: -webkit-gradient(linear, left top, right top, from(#CCC), to(transparent)), -webkit-gradient(linear, left top, left bottom, from(#CCC), to(transparent));
+  background-image: -webkit-linear-gradient(left, #CCC 1px, transparent 1px), -webkit-linear-gradient(top, #CCC 1px, transparent 1px);
+  background-image: linear-gradient(to right, #CCC 1px, transparent 1px), linear-gradient(to bottom, #CCC 1px, transparent 1px);
   background-position: 0 0;
 }
 
-/* Labels 
+/* Labels
 ----------------------------- */
 .cell {
   display: block;
@@ -138,13 +138,13 @@ LABEL {
   background: orange;
 }
 
-/* Result Box 
+/* Result Box
 ----------------------------- */
 .b-box--result {
   overflow: hidden;
 }
 
-/* Dotts 
+/* Dotts
 ----------------------------- */
 .dot {
   display: block;
@@ -156,7 +156,6 @@ LABEL {
   opacity: .2;
 }
 
-@keyframes shadows {}
 @-webkit-keyframes shadows {}
 /* Palette
 ----------------------------- */
@@ -209,10 +208,10 @@ LABEL {
   cursor: pointer;
 }
 .colors-controls__item:hover {
-  border-color: #868686 transparent;
+  border-color: #878787 transparent;
 }
 .colors-controls__item:active {
-  border-color: #535353 transparent;
+  border-color: #545454 transparent;
 }
 
 .colors-controls__item--up {
@@ -250,7 +249,7 @@ LABEL {
   height: 30px;
   line-height: 30px;
   pading: 0;
-  border: 1px solid #cccccc;
+  border: 1px solid #CCC;
   border-radius: 5px;
   text-align: center;
 }
@@ -273,7 +272,7 @@ LABEL {
   line-height: 24px;
   margin: 0 6px;
   top: 0;
-  background: lightgrey;
+  background: lightgray;
   font-weight: bold;
   color: #444;
   cursor: pointer;
@@ -327,7 +326,7 @@ LABEL {
 }
 
 .is--filled + .step__lbl {
-  background: lightgrey;
+  background: lightgray;
 }
 
 :checked + .step__lbl {
@@ -355,7 +354,7 @@ LABEL {
   left: 10px;
   border-bottom: 1px dotted;
   line-height: 1.2;
-  color: #555555;
+  color: #555;
   cursor: pointer;
 }
 
@@ -368,7 +367,7 @@ LABEL {
 }
 
 .is--sleepy {
-  color: #777777;
+  color: #777;
 }
 
 /* Codes
@@ -398,7 +397,7 @@ LABEL {
   right: 10px;
   border-bottom: 1px dotted;
   line-height: 1.2;
-  color: #555555;
+  color: #555;
   cursor: pointer;
 }
 .b-codes__toggle:hover {
@@ -423,7 +422,7 @@ LABEL {
   display: block;
   width: 100%;
   height: 120px;
-  border: 1px solid #cccccc;
+  border: 1px solid #CCC;
 }
 
 .textarea--css {
@@ -468,3 +467,5 @@ LABEL {
     display: block;
   }
 }
+
+/*# sourceMappingURL=style.unprefixed.css.map */

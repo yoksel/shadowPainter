@@ -1,3 +1,5 @@
+// "use strict";
+
 var line = "------------------------";
 //console.log( "Hello!" );
 
@@ -19,7 +21,7 @@ function shadowPainter() {
     codesToggle: ".b-codes__toggle",
     codesCss: ".textarea--css",
     codesHtml: ".textarea--html",
-    
+
     durationInp: ".text--duration",
     sizeInp: ".text--size",
     dotsInp: ".text--dots"
@@ -52,7 +54,7 @@ function shadowPainter() {
     inputType: "radio",
     inputClass: "color__inp",
     inputData: "data-color=\"{color}\" ",
-  
+
     labelContent: "",
     controlClass: "colors-controls__item",
     transparent: "rgba(255,255,255,0)",
@@ -61,13 +63,13 @@ function shadowPainter() {
 
   Color.currentListNum = 0;
   Color.list = Palettes[Color.currentListNum];
-  
+
   Color.current = Color.list[0];
   Color.classCurrent = Color.className + "--" + Color.currentNum;
 
   Color.StyleTempl = "." + Color.className + "--{i} {background: {color};}\n";
-  Color.controlTempl = "<li class=\"{itemsClass} {itemsClass}-{direction}\" data-direction=\"{direction}\"></li>"
- 
+  Color.controlTempl = "<li class=\"{itemsClass} {itemsClass}-{direction}\" data-direction=\"{direction}\"></li>";
+
   Color.upDown = {
     list: {
       "up": "",
@@ -78,7 +80,7 @@ function shadowPainter() {
     },
     template: "<li class=\"{itemsClass} {itemsClass}--{action}\" data-action=\"{action}\"></li>"
   };
-  
+
   var Step = {
     className: "step",
     inputType: "radio",
@@ -116,7 +118,7 @@ function shadowPainter() {
     template: "<span class=\"{itemsClass} {itemsClass}--{action}\" data-action=\"{action}\">{text}</span>"
   };
 
-  
+
   var templatesConfig = [Cell, Color, Step];
 
   var stylesClassNames = {
@@ -124,7 +126,7 @@ function shadowPainter() {
     shadows: "stylesBox",
     colors: "colorsBox"
   };
-  var Styles = {}
+  var Styles = {};
 
   var Output = {
     HtML: "",
@@ -150,50 +152,47 @@ function shadowPainter() {
     keyframes: findKeyFrames("shadows")
   };
   Anim.rules = Anim.keyframes.cssRules;
-  
-  var is_opened = false;// codes 
+
+  var is_opened = false;// codes
   var classIsRunning = "is-running";
-  
+
   var Frames = {};
   var currentFrame = 0;
 
-  var uAgent = navigator.userAgent;
-  var browser = uAgent.indexOf("WebKit") > 0 ? "webkit" : "firefox";
-
   this.init = function(){
-    
 
-    this.createTemplates();
-    this.createStylesBoxes();
 
-    this.initElements();
-    this.addConfig();
-    this.createInputsSet();
-    this.createFramesSet();
-    this.createPalette();
-    this.createSteps();
-    this.createCodes();
-    this.createDurationInp();
-    this.createSizeInp();
-    this.createDotsInp();
-  }
+  this.createTemplates();
+  this.createStylesBoxes();
 
-  
+  this.initElements();
+  this.addConfig();
+  this.createInputsSet();
+  this.createFramesSet();
+  this.createPalette();
+  this.createSteps();
+  this.createCodes();
+  this.createDurationInp();
+  this.createSizeInp();
+  this.createDotsInp();
+};
+
+
   // FUNCTIONS
   // -----------------------------------------
-  
-  
+
+
   function findKeyFrames(name){
     var keyFrames;
     for (var i = 0; i < doc.styleSheets.length; i++) {
       var stylesList = doc.styleSheets[i].cssRules;
 
       for (var k = 0; k < stylesList.length; k++) {
-        if ( stylesList[k].name == name ){
+        if ( stylesList[k].name === name ){
           keyFrames = stylesList[k];
         }
-      };
-    };
+      }
+    }
 
     return keyFrames;
   }
@@ -211,7 +210,7 @@ function shadowPainter() {
   // -----------------------------------------
 
   function getAnimStr() {
-    return Anim.duration + " " + Anim.name + " linear infinite"
+    return Anim.duration + " " + Anim.name + " linear infinite";
   }
 
   // -----------------------------------------
@@ -222,7 +221,7 @@ function shadowPainter() {
       Elems[className] = doc.querySelector(classNames[className]);
     }
 
-  }
+  };
 
   // -----------------------------------------
 
@@ -230,12 +229,12 @@ function shadowPainter() {
 
     Scene.dotSize = (Scene.size/Scene.oneSide);
 
-    Scene.dotSize = Scene.dotSize.toFixed() 
+    Scene.dotSize = Scene.dotSize.toFixed();
     Scene.size = Scene.dotSize * Scene.oneSide;
 
     this.configElemParams = {
       ".l-wrapper": {
-        "width": 660, //size * 2 + Scene.padding * 3 + border*6
+        "width": 700, //size * 2 + Scene.padding * 3 + border*6
         "height": 490, //size + Scene.padding * 2 + border*4
       },
       ".b-boxes": {
@@ -266,7 +265,7 @@ function shadowPainter() {
         "background-size": Scene.dotSize + " " + Scene.dotSize
       }
     };
-  }
+  };
 
   // -----------------------------------------
 
@@ -295,8 +294,8 @@ function shadowPainter() {
         "animation": getAnimStr()
       }
     };
-    
-  }
+
+  };
 
   // -----------------------------------------
 
@@ -317,13 +316,13 @@ function shadowPainter() {
     }
 
     Styles.config.innerHTML = styles;
-  }
+  };
 
 
   // -----------------------------------------
-  
+
   function addStylesBox(elemClass){
-    var elem = doc.createElement( "style" );  
+    var elem = doc.createElement( "style" );
     elem.classList.add( elemClass );
     var head = doc.querySelector( "head" );
     head.appendChild( elem );
@@ -334,30 +333,30 @@ function shadowPainter() {
 
   this.createStylesBoxes = function () {
      for ( var styleBox in stylesClassNames ){
-        Styles[styleBox] = addStylesBox(stylesClassNames[styleBox]); 
+        Styles[styleBox] = addStylesBox(stylesClassNames[styleBox]);
      }
-  }
+  };
 
   // -----------------------------------------
 
   this.createTemplates = function(){
-    
+
     for (var i = 0; i < templatesConfig.length; i++) {
 
-      item = templatesConfig[i];
+      var item = templatesConfig[i];
       item.template = createTemplate ( item );
 
     }
-  }
+  };
 
   // -----------------------------------------
-  
+
   function createTemplate ( item ){
 
     var itemType = item.className;
     var inputType = item.inputType;
     var data_attr = item.inputData;
-    var lblContent = item.labelContent
+    var lblContent = item.labelContent;
     var itemCustomClass = item.customClass ? item.customClass : "";
 
     var itemInpClass = itemType + "__inp";
@@ -385,74 +384,74 @@ function shadowPainter() {
 
   this.createControls = function( data ) {
     var output = "";
-    
+
     var counter = 0;
     for (var item in data.list ){
       data.replacements["{action}"] = item;
       data.replacements["{text}"] = data.list[ item ];
       output += fillTemplate( data.template, data.replacements );
 
-      if ( counter == 0 && data.insertBetween ){
+      if ( counter === 0 && data.insertBetween ){
         output += data.insertBetween;
       }
       counter++;
     }
     return output;
-  }
+  };
 
   // -----------------------------------------
 
   this.addDataDefautlt = function( elem, defaultValue){
     var defData = elem.getAttribute("data-default");
-    if ( defData == null ){
+    if ( defData === null ){
       elem.setAttribute("data-default", defaultValue);
     }
-  }
+  };
 
   // -----------------------------------------
-  
+
   this.addEvents = function ( itemsClass, func ){
 
     itemsClass = checkDot ( itemsClass );
     var items = doc.querySelectorAll(itemsClass);
 
     var parent = this;
-    
+
     for (var i = 0; i < items.length; i++) {
 
       items[i].onclick = function() {
         func.call(parent, this);
-      }
-    } 
-  }
+      };
+    }
+  };
 
   // -----------------------------------------
-  
+
   this.addOverEvents = function ( itemsClass, func ){
 
     itemsClass = checkDot ( itemsClass );
     var items = doc.querySelectorAll(itemsClass);
 
     var parent = this;
-    
+
     for (var i = 0; i < items.length; i++) {
 
       items[i].onmousedown = function() {
         isMousePressed = true;
-      }
+      };
 
       items[i].onmouseup = function() {
         isMousePressed = false;
-      }
-      
+      };
+
       items[i].onmouseover = function() {
         if ( isMousePressed ){
           func.call(parent, this);
         }
-      }
-      
-    } 
-  }
+      };
+
+    }
+  };
 
   // -----------------------------------------
 
@@ -474,48 +473,48 @@ function shadowPainter() {
     }
 
     func.call(parent, elem);
-  }
+  };
 
   // -----------------------------------------
-  
+
   this.addOnChangeEvents = function ( itemsClass, func ){
     var items = doc.querySelectorAll(itemsClass);
     var parent = this;
 
-    var params = { 
+    var params = {
       func: func,
       parent: parent
       };
-    
+
     for (var i = 0; i < items.length; i++) {
-      
+
       items[i].onkeyup = function(event) {
         params.elem = this;
 
-        if ( event.keyCode == 38
-          || event.keyCode == 40 ){
-            
+        if ( event.keyCode === 38 || event.keyCode === 40 ){
+
             this.value = getValByKeyCode(this, event.keyCode, event.shiftKey);
             func.call(parent, this);
           }
         else {
           setTimer( parent.checkInputValue, params );
         }
-      }
+      };
+
       items[i].onchange = function() {
         params.elem = this;
         parent.checkInputValue( params );
-      }
-      
+      };
+
       items[i].onblur = function() {
         params.elem = this;
         parent.checkInputValue( params );
-      }
-    } 
-  }
-  
+      };
+    }
+  };
+
   // -----------------------------------------
-  
+
   this.createInputsSet = function() {
     Elems.paintBox.innerHTML = Cell.dots;
     var output = "";
@@ -531,15 +530,16 @@ function shadowPainter() {
       };
       var checkBox = fillTemplate( Cell.template, replacements );
       output += checkBox;
-    }  
+    }
+
     Elems.paintBox.innerHTML += "<ul class=\"items items--dots\">" + output + "</ul>";
-    
+
     this.addOverEvents( Cell.labelClass, this.onOverLabel);
     this.addEvents( Cell.inputClass, this.onClickCell);
-  }
+  };
 
   // -----------------------------------------
-  
+
   this.createFramesSet = function() {
 
     for (var k = 0; k < Anim.stepsMax; k++) {
@@ -549,23 +549,23 @@ function shadowPainter() {
         Frames[k][hpos] = {};
 
         for (var vpos = 0; vpos < Scene.oneSideMax; vpos++) { // gorizontals
-          
+
           Frames[k][hpos][vpos] = {
             "hpos": hpos,
             "vpos": vpos,
             "color": Color.transparent
-          };        
+          };
         }  // End gorizontals
       } // End verticals
 
-    };
-  }
+    }
+  };
 
   // -----------------------------------------
-  
-  this.resetCurrentFrame = function(frame) {
 
-    k = currentFrame;
+  this.resetCurrentFrame = function( ) {
+
+    var k = currentFrame;
     Frames[k] = { active: 0 };
 
     for (var hpos = 0; hpos < Scene.oneSideMax; hpos++) { // verticals
@@ -573,42 +573,40 @@ function shadowPainter() {
       for (var vpos = 0; vpos < Scene.oneSideMax; vpos++) { // gorizontals
         Frames[k][hpos][vpos] = {
           "color": Color.transparent
-        };        
+        };
       }  // End gorizontals
     } // End verticals
 
-  }
+  };
 
   // -----------------------------------------
-  
+
   this.toggleColorClass = function( elem ) {
    var findClass = Color.className + "--";
-   var classes = elem.classList; 
+   var classes = elem.classList;
     for (var i = 0; i < classes.length; i++) {
-     
+
      if(classes[i].indexOf(findClass) >= 0 ){
        classes.remove(classes[i]);
-       return;  
+       return;
      }
     }
    classes.add(findClass + Color.currentNum);
-  }
+  };
 
 
   // -----------------------------------------
 
   this.onClickCell = function(elem) {
     this.updateFrames( elem );
-  } 
+  };
 
   // -----------------------------------------
 
   this.onOverLabel = function(elem) {
     var input = elem.previousSibling;
 
-    var input = elem.previousSibling;
-
-    if ( input.checked == true ){
+    if ( input.checked === true ){
       input.checked = false;
     }
     else {
@@ -616,11 +614,11 @@ function shadowPainter() {
     }
 
     this.updateFrames( input );
-  
-  }
+
+  };
 
   // -----------------------------------------
-  
+
   this.updateFrames = function( elem ) {
 
     var hpos = elem.getAttribute("data-hpos");
@@ -628,86 +626,84 @@ function shadowPainter() {
 
     var place = Frames[currentFrame];
     var color = Color.transparent;
-    
+
     if ( elem.checked ){
       color = Color.current;
       place.active++;
       }
     else {
       place.active--;
-    }  
-    
+    }
+
     place[hpos][vpos].color = color;
     this.paintShadow();
-   }
+   };
 
   // -----------------------------------------
-  
+
   this.paintShadow = function(){
 
     var styles = "";
-    var animName = "shadows";
-    var animFrames = {};
-    
+
     var framesLength = Anim.steps; //objLength(Frames);
 
-    var perc = Anim.steps == 1 ? 0 : (100 / framesLength).toFixed(3);
+    var perc = Anim.steps === 1 ? 0 : (100 / framesLength).toFixed(3);
 
     var dottes = Frames[currentFrame];
-    var shadows = this.createShadow( dottes ); 
-    
+    var shadows = this.createShadow( dottes );
+
     styles = ".b-box--paint .dot {\n " + shadows + " \n}\n";
-    
+
     dottes = Frames[0];
-    shadows = this.createShadow( dottes ); 
+    shadows = this.createShadow( dottes );
     styles += classNames.resultDot + " {\n " + shadows + " -webkit-animation-duration: " + Anim.duration + "; \nanimation-duration: " + Anim.duration + ";\n}\n";
 
     if ( currentFrame > 0 ){
-    
+
       dottes = Frames[currentFrame - 1];
-      shadows = this.createShadow( dottes ); 
+      shadows = this.createShadow( dottes );
       styles += ".b-box--paint .dot--previous {\n " + shadows + " \n}\n";
     }
-    
+
     Styles.shadows.innerHTML = styles;
 
     this.replaceAnimation({perc: perc});
 
-  }
+  };
 
   // -----------------------------------------
 
   this.createShadow = function( dottes, is_value ){
 
-    if ( dottes == undefined ){
+    if ( dottes === undefined ){
       return;
     }
 
     var shadows = "";
     var if_first = true;
-    
+
     //var cellsMax = Scene.oneSide * Scene.oneSide;
 
     for (var hpos = 0; hpos < Scene.oneSide + 1; hpos++) {
       for (var vpos = 0; vpos < Scene.oneSide + 1; vpos++) {
-      
+
         var dot = dottes[hpos][vpos];
-        
+
         var hpos_px = dot.hpos * Scene.dotSize + "px";
         var vpos_px = dot.vpos * Scene.dotSize + "px";
         var color = Color.transparent;
 
 
-        if ( dot.color != Color.transparent ) {
+        if ( dot.color !== Color.transparent ) {
           color = dot.color;
         }
-        
+
         if ( if_first ){
           if_first = false;
         }
         else {
           shadows += ", ";
-        }  
+        }
 
         shadows += hpos_px + " " + vpos_px + " 0 0 " + color;
 
@@ -719,12 +715,12 @@ function shadowPainter() {
     }
 
     return shadows;
-  }
+  };
 
   // -----------------------------------------
 
   this.deleteKeyframes = function() {
-   
+
     var rules = Anim.rules;
     var keyTexts = [];
 
@@ -733,12 +729,12 @@ function shadowPainter() {
         var keyText = rules[r].keyText;
         keyTexts.push(keyText);
       }
-    
+
       for (var i = 0; i < keyTexts.length; i++) {
         Anim.keyframes.deleteRule(keyTexts[i]);
-      };
-    }  
-  }
+      }
+    }
+  };
 
   // -----------------------------------------
 
@@ -746,34 +742,27 @@ function shadowPainter() {
 
     Output.Animation = "";
     this.deleteKeyframes();
-    
-    if ( Anim.steps == 1 ){
+
+    if ( Anim.steps === 1 ){
       this.restartAnimation();
       return;
     }
 
     for ( var step = 0; step < Anim.steps; step++){
-      
+
       var anim_dottes = Frames[step];
-      var anim_shadows = this.createShadow( anim_dottes ); 
+      var anim_shadows = this.createShadow( anim_dottes );
 
-      var frameRule = animation.perc*step + "% {" + anim_shadows + "}"
+      var frameRule = animation.perc*step + "% {" + anim_shadows + "}";
 
-      // 0_o
-      if ( browser == "firefox" ){
-        Anim.keyframes.appendRule(frameRule);
-        }
-      else {
-        Anim.keyframes.insertRule(frameRule);
-      }  
+      Anim.keyframes.appendRule(frameRule);
 
-      
       Output.Animation += frameRule + "\n";
     }
-    
+
     this.restartAnimation();
 
-  }
+  };
 
   // -----------------------------------------
 
@@ -782,28 +771,27 @@ function shadowPainter() {
     resultDot.classList.remove(classIsRunning);
     resultDot.offsetWidth = resultDot.offsetWidth;
     resultDot.classList.add(classIsRunning);
-  }
+  };
 
   // -----------------------------------------
-  
+
   this.createPalette = function () {
-    var output = "";
-    
+
     Elems.palette.innerHTML += "<h4 class='b-title'>Colors</h4> ";
     Elems.palette.innerHTML += "<ul class=\"items items--colors\"></ul>";
     Elems.palette.innerHTML += "<ul class=\"items items--colors-controls\">" + this.createControls( Color.upDown ) +"</ul>";
 
     this.fillPalette();
     this.addEvents( Color.inputClass, this.onClickColor );
-    
+
     var first = doc.querySelector( checkDot(Color.inputClass) );
     first.checked = true;
-    
+
     this.addEvents( Color.controlClass, this.onClickColorControl );
-  }
+  };
 
   // -----------------------------------------
-  
+
   this.fillPalette = function () {
     var output = "";
 
@@ -820,16 +808,15 @@ function shadowPainter() {
       var colorStyle = fillTemplate( Color.StyleTempl, replacements );
       Styles.colors.innerHTML += colorStyle;
       output += colorItem;
-    } 
+    }
 
     colorsItems.innerHTML = output;
-    
-  }
+
+  };
 
   // -----------------------------------------
-  
+
   this.reFillPalette = function () {
-    var output = "";
 
     var colorsItems = doc.querySelectorAll(checkDot(Color.inputClass));
 
@@ -844,17 +831,17 @@ function shadowPainter() {
       };
       var colorStyle = fillTemplate( Color.StyleTempl, replacements );
       Styles.colors.innerHTML += colorStyle;
-    } 
-  }
+    }
+  };
 
   // -----------------------------------------
-  
+
   this.onClickColor = function( elem ){
 
     Color.current = elem.getAttribute("data-color");
     Color.currentNum = elem.getAttribute("data-color-num");
     Color.classCurrent = Color.className + "--" + Color.currentNum;
-  }
+  };
 
   // -----------------------------------------
 
@@ -862,13 +849,13 @@ function shadowPainter() {
     var direct = elem.getAttribute("data-direction");
     var max = Palettes.length - 1;
 
-    if ( direct == "up" ){
+    if ( direct === "up" ){
       if ( Color.currentListNum < max ){
         Color.currentListNum++;
         }
       else {
         Color.currentListNum = 0;
-      }  
+      }
     }
     else {
       if ( Color.currentListNum > 0 ){
@@ -876,18 +863,18 @@ function shadowPainter() {
         }
       else {
         Color.currentListNum = max;
-      }  
+      }
     }
     Color.list = Palettes[Color.currentListNum];
     Color.current = Color.list[Color.currentNum];
     Color.classCurrent = Color.className + "--" + Color.currentNum;
     this.reFillPalette();
-  }
+  };
   // -----------------------------------------
-  
+
   this.createSteps = function(){
     var output = "";
-    
+
     Elems.steps.innerHTML += "<h4 class='b-title'>" + this.createControls( Step.plusMinus ) + "</h4> ";
 
 
@@ -902,8 +889,8 @@ function shadowPainter() {
 
       var stepItem = fillTemplate( Step.template, replacements );
       output += stepItem;
-    } 
-    
+    }
+
     Elems.steps.innerHTML += "<ul class=\"items items--steps\">" + output + "</ul>";
 
     Elems.steps.innerHTML += this.createControls( Step.clearFrames );
@@ -915,60 +902,59 @@ function shadowPainter() {
     this.addEvents( Step.controlClass, this.onClickStepControl );
     this.addEvents( Step.clearFramesClass, this.onClickClearFrames );
 
-  }
+  };
 
   // -----------------------------------------
-  
+
   this.onClickStep = function( elem ){
     currentFrame = elem.getAttribute("data-step-num");
     this.paintShadow();
     this.updateCells();
-  }
+  };
 
   // -----------------------------------------
-  
+
   this.onClickStepControl = function( elem ){
-    
+
     var action = elem.getAttribute("data-action");
-    var stepsItems = doc.querySelectorAll(checkDot(Step.className));    
+    var stepsItems = doc.querySelectorAll(checkDot(Step.className));
     var division = stepsItems[Anim.steps - 1];
-    
-    if ( action == "plus" 
-         && Anim.steps < Anim.stepsMax) {
+
+    if ( action === "plus" && Anim.steps < Anim.stepsMax) {
 
        Anim.steps++;
-       
+
        division.nextSibling.classList.remove(Step.hiddenClass);
        this.paintShadow();
 
-       if ( Anim.steps == Anim.stepsMax ){
+       if ( Anim.steps === Anim.stepsMax ){
           elem.classList.add(Step.disabledClass);
        }
-       else if ( Anim.steps == 2 ){
+       else if ( Anim.steps === 2 ){
           this.enableControls();
        }
     }
-    else if ( action == "minus" 
+    else if ( action === "minus"
               && Anim.steps > 1) {
 
        Anim.steps--;
        division.classList.add(Step.hiddenClass);
        this.paintShadow();
 
-       if (Anim.steps == currentFrame ){
+       if (Anim.steps === currentFrame ){
         currentFrame--;
         var prevInput = doc.querySelectorAll(checkDot (Step.inputClass) )[currentFrame];
         prevInput.checked = true;
         }
 
-       if ( Anim.steps == 1 ){
+       if ( Anim.steps === 1 ){
           elem.classList.add(Step.disabledClass);
        }
-       else if ( Anim.steps == Anim.stepsMax - 1 ){
+       else if ( Anim.steps === Anim.stepsMax - 1 ){
           this.enableControls();
        }
     }
-  }
+  };
 
   // -----------------------------------------
 
@@ -976,16 +962,16 @@ function shadowPainter() {
     var disabledItem = doc.querySelector(checkDot(Step.disabledClass));
     if ( disabledItem ){
      disabledItem.classList.remove(Step.disabledClass);
-    }  
-  }
+    }
+  };
 
   // -----------------------------------------
-  
+
   this.onClickClearFrames = function( elem ){
-    
+
     var action = elem.getAttribute("data-action");
 
-    if ( action == "all" ){
+    if ( action === "all" ){
       this.createFramesSet();
       this.paintShadow();
       this.updateCells();
@@ -996,23 +982,23 @@ function shadowPainter() {
       this.updateCells();
     }
 
-  }
-  
+  };
+
   // -----------------------------------------
-  
+
   this.updateSteps = function () {
     var radio = Elems.steps.querySelectorAll("input");
-    
+
     for (var i = 0; i < radio.length; i++) {
       if ( Frames[i].active > 0){
         radio[i].classList.add("is--filled");
-      }  
+      }
       else {
         radio[i].classList.remove("is--filled");
       }
     }
 
-  }
+  };
 
   // -----------------------------------------
 
@@ -1023,27 +1009,26 @@ function shadowPainter() {
 
     for (var i = 0; i < checkboxes.length; i++) {
       var cell = checkboxes[i];
-      var id = cell.id;
       var hpos = cell.getAttribute("data-hpos");
       var vpos = cell.getAttribute("data-vpos");
       var color = frameCells[hpos][vpos].color;
 
-      if ( color == Color.transparent ){
+      if ( color === Color.transparent ){
         cell.checked = false;
       }
       else {
         colored++;
-        cell.checked = true; 
+        cell.checked = true;
       }
-    };
+    }
 
-  }
+  };
 
   // -----------------------------------------
-  
+
   this.createCodes = function() {
     this.addEvents( classNames.codesToggle, this.onClickCodes);
-  }
+  };
 
   // -----------------------------------------
 
@@ -1056,28 +1041,28 @@ function shadowPainter() {
         is_opened = false;
       }
       else {
-        is_opened = true; 
+        is_opened = true;
         text = textClose;
       }
 
       Elems.codesToggle.innerHTML = text;
 
       Elems.codes.classList.toggle("is-open");
-      
+
       Output.HtML = "<!-- " + Output.comment + " -->\n<div class='box'><span class='dot'></span></div>";
-      
+
       Elems.codesCss.innerHTML = "/*-- " + Output.comment + " */\n" + this.createOutputCss();
       Elems.codesHtml.innerHTML = Output.HtML;
-      
-  }
+
+  };
 
   // -----------------------------------------
 
   this.createOutputCss = function(){
    var styles = "";
-   
-   dottes = Frames[0];
-   shadows = this.createShadow( dottes, true ); 
+
+   var dottes = Frames[0];
+   var shadows = this.createShadow( dottes, true );
 
    this.setOutputParams();
    this.outputElemParams[".dot"]["box-shadow"] = shadows;
@@ -1094,13 +1079,13 @@ function shadowPainter() {
     }
 
     styles += "\n/* Keyframes */\n";
-    
+
     var animation = "\n@-webkit-keyframes shadows {\n" + Output.Animation + "\n}\n";
     animation += "@keyframes shadows {\n" + Output.Animation + "\n}\n";
     styles += animation;
 
     return styles;
-  }
+  };
 
   // -----------------------------------------
 
@@ -1110,16 +1095,16 @@ function shadowPainter() {
     Elems.durationInp.value = durationInt;
 
     this.addDataDefautlt(Elems.durationInp, durationInt);
-    
+
     this.addOnChangeEvents( classNames.durationInp, this.onChangeDuration);
-  }
+  };
 
   // -----------------------------------------
 
-  this.onChangeDuration = function(elem, key){
+  this.onChangeDuration = function( elem ){
     Anim.duration = elem.value + "s";
     this.paintShadow();
-  }
+  };
 
   // -----------------------------------------
 
@@ -1129,7 +1114,7 @@ function shadowPainter() {
     this.addDataDefautlt(Elems.sizeInp, Scene.size);
 
     this.addOnChangeEvents( classNames.sizeInp, this.onChangeSize);
-  }
+  };
 
   // -----------------------------------------
 
@@ -1139,7 +1124,7 @@ function shadowPainter() {
 
     this.addConfig();
     this.paintShadow();
-  }
+  };
 
   // -----------------------------------------
 
@@ -1149,7 +1134,7 @@ function shadowPainter() {
     this.addDataDefautlt(Elems.dotsInp, Scene.oneSide);
 
     this.addOnChangeEvents( classNames.dotsInp, this.onChangeDots);
-  }
+  };
 
   // -----------------------------------------
 
@@ -1160,7 +1145,7 @@ function shadowPainter() {
     this.addConfig();
     this.createInputsSet();
     this.paintShadow();
-  }
+  };
 
 }// End Pixelator
 
@@ -1168,9 +1153,8 @@ function shadowPainter() {
 // -----------------------------------------
 
 function out ( data, is_style, color ) {
-  //out( arguments.callee );
-  //style  =  style || null;
   var style;
+
   if ( is_style ){
     color = color || "orangered";
     style = "color: " + color + "; padding-left: 20px;";
@@ -1180,10 +1164,11 @@ function out ( data, is_style, color ) {
   else {
     console.log( data );
   }
-  
+
 }
 
 function checkDot ( className ){
+
   if ( className.indexOf(".") < 0 ){
     className = "." + className;
   }
@@ -1192,28 +1177,28 @@ function checkDot ( className ){
 
 function strIsNAN(str){
 
-  str = str.replace(/-|\./g,"");  //| 
+  str = str.replace(/-|\./g,"");
   str = str.split(" ").join("");
   return isNaN(str);
 }
 
-function addUnits( str, property ){
+function addUnits( str ){
   str = String(str);
   var arr = str.split(" ");
 
   if ( strIsNAN(str) ){
-    return str;  
+    return str;
   }
 
-  if ( arr.length > 1 
+  if ( arr.length > 1
       && arr[0].indexOf("px") < 0
       && arr[0].indexOf("em") < 0
       && arr[0].indexOf("%") < 0 ){
-      str = arr.join("px ") + "px"; 
-      return str;  
+      str = arr.join("px ") + "px";
+      return str;
   }
-  
-  if ( str.indexOf("px") < 0 
+
+  if ( str.indexOf("px") < 0
       && str.indexOf("em") < 0
       && arr[0].indexOf("%") < 0 ) {
     str += "px";
@@ -1223,50 +1208,49 @@ function addUnits( str, property ){
 }
 
 
-  function getValByKeyCode(elem, key, isShift ) {
-    var value = +elem.value;
-    var min = elem.getAttribute("data-min");
-    var max = elem.getAttribute("data-max");
+function getValByKeyCode(elem, key, isShift ) {
+  var value = +elem.value;
+  var min = elem.getAttribute("data-min");
+  var max = elem.getAttribute("data-max");
 
-    var step = isShift ? 10 : 1;
-      
-    if ( key == 38 ) {
-      if ( value >= 0 
-           && value < 1 
-           && min < 1 ){
+  var step = isShift ? 10 : 1;
 
-        step = .1;
-      }
-      value += step;
+  if ( key === 38 ) {
+    if ( value >= 0
+         && value < 1
+         && min < 1 ){
+
+      step = 0.1;
     }
-    else if ( key == 40 ) {
-      if ( value > 0 
-           && value <= 1
-           && min < 1 ){
-
-        step = .1;
-      }
-      value -= step;
-    }
-
-    if ( value < min ) {
-      value = min;
-      }
-    else if ( max != null && value > max ) {
-      value = max;
-      }
-    else {
-      if ( value > 0 && value < 1 ){
-        value = value.toFixed(1);
-      }
-      else {
-        value = value.toFixed();
-      }
-    }
-    
-
-    return value;
+    value += step;
   }
+  else if ( key === 40 ) {
+    if ( value > 0
+         && value <= 1
+         && min < 1 ){
+
+      step = 0.1;
+    }
+    value -= step;
+  }
+
+  if ( value < min ) {
+    value = min;
+    }
+  else if ( max !== null && value > max ) {
+    value = max;
+    }
+  else {
+    if ( value > 0 && value < 1 ){
+      value = value.toFixed(1);
+    }
+    else {
+      value = value.toFixed();
+    }
+  }
+
+  return value;
+}
 
 function valueSetDefaultIfNAN(elem){
   var value = elem.value;
@@ -1274,32 +1258,31 @@ function valueSetDefaultIfNAN(elem){
   if ( isNaN( value ) ){
      return defaultValue;
   }
-  //out( "valueSetDefault" );
-  //out(value);
+
   return false;
 }
 
 function minMaxDef(elem) {
    var min = elem.getAttribute("data-min");
-   min = min == null ? 0 : +min;
-   
+   min = min === null ? 0 : +min;
+
    var max = elem.getAttribute("data-max");
-   max = max == null ? 100 : +max;
+   max = max === null ? 100 : +max;
 
    var value = elem.value;
 
    var out = value > max ? max : value < min ? min : false;
    return out;
-}        
+}
 
 function fillTemplate( dataStr, replacements ) {
   for ( var key in replacements ){
     var findStr = key;
     var replaceWithStr = replacements[key];
-    
+
     dataStr = dataStr.split(findStr).join(replaceWithStr);
   }
-  return dataStr;  
+  return dataStr;
 }
 
 function objLength( obj ) {
