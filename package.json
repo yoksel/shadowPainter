@@ -9,17 +9,27 @@
     "build": "gulp clean && gulp sass && gulp include && gulp copy",
     "deploy": "npm run build && gulp ghPages",
     "check": "editorconfig-tools check *",
-    "fix": "editorconfig-tools fix *"
+    "fix": "editorconfig-tools fix *",
+    "js:lint": "eslint '**/*.js'",
+    "js:fix": "eslint '**/*.js' --fix",
+    "css:lint": "stylelint src/**/*.scss",
+    "lint": "npm run js:lint && npm run css:lint",
+    "lint:fix": "npm run js:fix"
   },
   "author": "yoksel",
   "license": "ISC",
   "devDependencies": {
     "autoprefixer": "^6.3.5",
+    "babel-eslint": "^10.0.1",
     "browser-sync": "^2.26.3",
     "colors": "^1.1.2",
     "css-mqpacker": "^4.0.1",
     "cssnano": "^3.5.2",
     "del": "^2.2.0",
+    "editorconfig-tools": "^0.1.1",
+    "eslint": "^5.12.1",
+    "eslint-config-yandex": "^1.0.6",
+    "eslint-plugin-babel": "^5.3.0",
     "gulp": "^4.0.0",
     "gulp-copy": "0.0.2",
     "gulp-gh-pages": "^0.5.4",
@@ -28,6 +38,8 @@
     "gulp-postcss": "^6.1.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^4.0.2",
-    "imagemin-pngquant": "^4.2.2"
+    "imagemin-pngquant": "^4.2.2",
+    "stylelint": "^9.10.1",
+    "stylelint-config-standard": "^18.2.0"
   }
 }
