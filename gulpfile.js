@@ -8,8 +8,6 @@ var autoprefixer = require('autoprefixer');
 var cssnano = require('cssnano');
 var rename = require('gulp-rename');
 var mqpacker = require('css-mqpacker');
-var imagemin = require('gulp-imagemin');
-var pngquant = require('imagemin-pngquant');
 var copy = require('gulp-copy');
 var ghPages = require('gulp-gh-pages');
 var colors = require('colors/safe');
@@ -52,19 +50,6 @@ gulp.task('js', function () {
   return gulp.src('src/js/**/*.js')
     .pipe(gulp.dest('assets/js/'))
     .pipe(reload({stream: true}));
-});
-
-// IMAGES
-gulp.task('images', function () {
-  console.log(colors.magenta('⬤  Optimize images... ⬤'));
-
-  return gulp.src('src/img/*')
-    .pipe(imagemin({
-      progressive: true,
-      svgoPlugins: [{removeViewBox: false}],
-      use: [pngquant()]
-    }))
-    .pipe(gulp.dest('assets/img'));
 });
 
 // INCLUDE BLOCKS IN HTML
