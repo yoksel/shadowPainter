@@ -130,6 +130,7 @@ LABEL {
     );
   background-position: 0 0;
 }
+
 /* Labels
 ----------------------------- */
 .cell {
@@ -144,8 +145,8 @@ LABEL {
   display: block;
   border-radius: $radius;
   /*box-shadow: 0 0 2px #999 inset;*/
-
 }
+
 :checked + .cell__lbl {
   position: relative;
   }
@@ -175,7 +176,6 @@ LABEL {
 }
 
 @keyframes shadows {}
-@-webkit-keyframes shadows {}
 
 /* Palette
 ----------------------------- */

@@ -18,7 +18,7 @@ function shadowPainter() {
 
     codes: '.b-codes',
     codesToggle: '.b-codes__toggle',
-    codesCss: '.textarea--css',
+    codesCSS: '.textarea--css',
     codesHtml: '.textarea--html',
 
     durationInp: '.text--duration',
@@ -64,9 +64,9 @@ function shadowPainter() {
   Color.list = Palettes[Color.currentListNum];
 
   Color.current = Color.list[0];
-  Color.classCurrent = Color.className + '--' + Color.currentNum;
+  Color.classCurrent = `${Color.className}--${Color.currentNum}`;
 
-  Color.StyleTempl = '.' + Color.className + '--{i} {background: {color};}\n';
+  Color.StyleTempl = `.${Color.className}--{i} {background: {color};}\n`;
   Color.controlTempl = '<li class="{itemsClass} {itemsClass}-{direction}" data-direction="{direction}"></li>';
 
   Color.upDown = {
@@ -117,7 +117,6 @@ function shadowPainter() {
     template: '<span class="{itemsClass} {itemsClass}--{action}" data-action="{action}">{text}</span>'
   };
 
-
   var templatesConfig = [Cell, Color, Step];
 
   var stylesClassNames = {
@@ -128,8 +127,8 @@ function shadowPainter() {
   var Styles = {};
 
   var Output = {
-    HtML: '',
-    Css: '',
+    HTML: '',
+    CSS: '',
     Animation: '',
     comment: 'Created in shadowPainter : )'
   };
@@ -179,7 +178,6 @@ function shadowPainter() {
   // FUNCTIONS
   // -----------------------------------------
 
-
   function findKeyFrames(name) {
     var keyFrames;
     for (var i = 0; i < doc.styleSheets.length; i++) {
@@ -210,26 +208,22 @@ function shadowPainter() {
   // -----------------------------------------
 
   function getAnimStr() {
-    return Anim.duration + ' ' + Anim.name + ' linear infinite';
+    return `${Anim.duration} ${Anim.name} linear infinite`;
   }
 
   // -----------------------------------------
 
   this.initElements = function () {
-
     for (var className in classNames) {
       Elems[className] = doc.querySelector(classNames[className]);
     }
-
   };
 
   // -----------------------------------------
 
   this.setParams = function () {
-
-    Scene.dotSize = (Scene.size/Scene.oneSide);
-
-    Scene.dotSize = Scene.dotSize.toFixed();
+    let dotSize = (Scene.size / Scene.oneSide);
+    Scene.dotSize = dotSize.toFixed();
     Scene.size = Scene.dotSize * Scene.oneSide;
 
     this.configElemParams = {
@@ -258,7 +252,6 @@ function shadowPainter() {
         'left': '-' + Scene.dotSize
       },
       '.is-running': {
-        '-webkit-animation': getAnimStr(),
         'animation': getAnimStr()
       },
       '.b-box--paint': {
@@ -290,7 +283,6 @@ function shadowPainter() {
         'height': Scene.dotSize,
         'top': '-' + Scene.dotSize,
         'left': '-' + Scene.dotSize,
-        '-webkit-animation': getAnimStr(),
         'animation': getAnimStr()
       }
     };
@@ -340,19 +332,15 @@ function shadowPainter() {
   // -----------------------------------------
 
   this.createTemplates = function () {
-
     for (var i = 0; i < templatesConfig.length; i++) {
-
       var item = templatesConfig[i];
       item.template = createTemplate(item);
-
     }
   };
 
   // -----------------------------------------
 
   function createTemplate(item) {
-
     var itemType = item.className;
     var inputType = item.inputType;
     var data_attr = item.inputData;
@@ -371,9 +359,9 @@ function shadowPainter() {
       '{lblContent}': lblContent
     };
 
-    var itemInputTempl = '<input type=\'{inputType}\' id=\'{itemType}-{i}\' class=\'' + itemInpClass +'\' name=\'{itemType}\' data-{itemType}-num=\'{i}\' ' + data_attr + '>';//
-    var itemLabelTempl = '<label for=\'{itemType}-{i}\' class=\'{itemLblClass} {itemType}--{i}\'>{lblContent}</label>';
-    var itemTempl = '<li class=\'{itemType}' + itemCustomClass + '\'>' + itemInputTempl + itemLabelTempl +'</li>';
+    var itemInputTempl = `<input type="{inputType}" id="{itemType}-{i}" class="${itemInpClass}" name="{itemType}" data-{itemType}-num="{i}" ${data_attr}>`;//
+    var itemLabelTempl = `<label for="{itemType}-{i}" class="{itemLblClass} {itemType}--{i}">{lblContent}</label>`;
+    var itemTempl = `<li class="{itemType}${itemCustomClass}">${itemInputTempl}${itemLabelTempl}</li>`;
 
     var result = fillTemplate(itemTempl, replacements);
 
@@ -411,14 +399,11 @@ function shadowPainter() {
   // -----------------------------------------
 
   this.addEvents = function (itemsClass, func) {
-
     itemsClass = checkDot(itemsClass);
     var items = doc.querySelectorAll(itemsClass);
-
     var parent = this;
 
     for (var i = 0; i < items.length; i++) {
-
       items[i].onclick = function () {
         func.call(parent, this);
       };
@@ -428,7 +413,6 @@ function shadowPainter() {
   // -----------------------------------------
 
   this.addOverEvents = function (itemsClass, func) {
-
     itemsClass = checkDot(itemsClass);
     var items = doc.querySelectorAll(itemsClass);
 
@@ -456,7 +440,6 @@ function shadowPainter() {
   // -----------------------------------------
 
   this.checkInputValue = function (params) {
-
     var elem = params.elem;
     var func = params.func;
     var parent = params.parent;
@@ -487,7 +470,6 @@ function shadowPainter() {
     };
 
     for (var i = 0; i < items.length; i++) {
-
       items[i].onkeyup = function (event) {
         params.elem = this;
 
@@ -495,7 +477,8 @@ function shadowPainter() {
 
           this.value = getValByKeyCode(this, event.keyCode, event.shiftKey);
           func.call(parent, this);
-        } else {
+        }
+        else {
           setTimer(parent.checkInputValue, params);
         }
       };
@@ -531,7 +514,7 @@ function shadowPainter() {
       output += checkBox;
     }
 
-    Elems.paintBox.innerHTML += '<ul class="items items--dots">' + output + '</ul>';
+    Elems.paintBox.innerHTML += `<ul class="items items--dots">${output}</ul>`;
 
     this.addOverEvents(Cell.labelClass, this.onOverLabel);
     this.addEvents(Cell.inputClass, this.onClickCell);
@@ -567,6 +550,7 @@ function shadowPainter() {
 
     for (var hpos = 0; hpos < Scene.oneSideMax; hpos++) { // verticals
       Frames[k][hpos] = {};
+
       for (var vpos = 0; vpos < Scene.oneSideMax; vpos++) { // gorizontals
         Frames[k][hpos][vpos] = {
           'color': Color.transparent
@@ -580,6 +564,7 @@ function shadowPainter() {
   this.toggleColorClass = function (elem) {
     var findClass = Color.className + '--';
     var classes = elem.classList;
+
     for (var i = 0; i < classes.length; i++) {
 
       if (classes[i].indexOf(findClass) >= 0) {
@@ -587,6 +572,7 @@ function shadowPainter() {
         return;
       }
     }
+
     classes.add(findClass + Color.currentNum);
   };
 
@@ -604,7 +590,8 @@ function shadowPainter() {
 
     if (input.checked === true) {
       input.checked = false;
-    } else {
+    }
+    else {
       input.checked = true;
     }
 
@@ -623,7 +610,8 @@ function shadowPainter() {
     if (elem.checked) {
       color = Color.current;
       place.active++;
-    } else {
+    }
+    else {
       place.active--;
     }
 
@@ -644,7 +632,7 @@ function shadowPainter() {
 
     dottes = Frames[0];
     shadows = this.createShadow(dottes);
-    styles += classNames.resultDot + ' {\n ' + shadows + ' -webkit-animation-duration: ' + Anim.duration + '; \nanimation-duration: ' + Anim.duration + ';\n}\n';
+    styles += classNames.resultDot + ' {\n ' + shadows + ' \nanimation-duration: ' + Anim.duration + ';\n}\n';
 
     if (currentFrame > 0) {
 
@@ -661,7 +649,6 @@ function shadowPainter() {
   // -----------------------------------------
 
   this.createShadow = function (dottes, is_value) {
-
     if (dottes === undefined) {
       return;
     }
@@ -669,11 +656,8 @@ function shadowPainter() {
     var shadows = '';
     var if_first = true;
 
-    // var cellsMax = Scene.oneSide * Scene.oneSide;
-
     for (var hpos = 0; hpos < Scene.oneSide + 1; hpos++) {
       for (var vpos = 0; vpos < Scene.oneSide + 1; vpos++) {
-
         var dot = dottes[hpos][vpos];
 
         var hpos_px = dot.hpos * Scene.dotSize + 'px';
@@ -687,12 +671,12 @@ function shadowPainter() {
 
         if (if_first) {
           if_first = false;
-        } else {
+        }
+        else {
           shadows += ', ';
         }
 
         shadows += hpos_px + ' ' + vpos_px + ' 0 0 ' + color;
-
       }
     }
 
@@ -737,7 +721,7 @@ function shadowPainter() {
       var anim_dottes = Frames[step];
       var anim_shadows = this.createShadow(anim_dottes);
 
-      var frameRule = animation.perc*step + '% {' + anim_shadows + '}';
+      var frameRule = `${animation.perc * step}% {\n${anim_shadows}\n}`;
 
       Anim.keyframes.appendRule(frameRule);
 
@@ -759,9 +743,10 @@ function shadowPainter() {
   // -----------------------------------------
 
   this.createPalette = function () {
-    Elems.palette.innerHTML += '<h4 class=\'b-title\'>Colors</h4> ';
+    const paletteControls = this.createControls(Color.upDown);
+    Elems.palette.innerHTML += '<h4 class="b-title">Colors</h4> ';
     Elems.palette.innerHTML += '<ul class="items items--colors"></ul>';
-    Elems.palette.innerHTML += '<ul class="items items--colors-controls">' + this.createControls(Color.upDown) +'</ul>';
+    Elems.palette.innerHTML += `<ul class="items items--colors-controls">${paletteControls}</ul>`;
 
     this.fillPalette();
     this.addEvents(Color.inputClass, this.onClickColor);
@@ -776,9 +761,7 @@ function shadowPainter() {
 
   this.fillPalette = function () {
     var output = '';
-
     var colorsItems = doc.querySelector('.items--colors');
-
     Styles.colors.innerHTML = '';
 
     for (var i = 0; i < Color.list.length; i++) {
@@ -798,19 +781,17 @@ function shadowPainter() {
   // -----------------------------------------
 
   this.reFillPalette = function () {
-
     var colorsItems = doc.querySelectorAll(checkDot(Color.inputClass));
-
     Styles.colors.innerHTML = '';
 
     for (var i = 0; i < Color.list.length; i++) {
-
       colorsItems[i].setAttribute('data-color', Color.list[i]);
       var replacements = {
         '{i}': i,
         '{color}': Color.list[i]
       };
       var colorStyle = fillTemplate(Color.StyleTempl, replacements);
+
       Styles.colors.innerHTML += colorStyle;
     }
   };
@@ -832,16 +813,20 @@ function shadowPainter() {
     if (direct === 'up') {
       if (Color.currentListNum < max) {
         Color.currentListNum++;
-      } else {
+      }
+      else {
         Color.currentListNum = 0;
       }
-    } else {
+    }
+    else {
       if (Color.currentListNum > 0) {
         Color.currentListNum--;
-      } else {
+      }
+      else {
         Color.currentListNum = max;
       }
     }
+
     Color.list = Palettes[Color.currentListNum];
     Color.current = Color.list[Color.currentNum];
     Color.classCurrent = Color.className + '--' + Color.currentNum;
@@ -852,9 +837,8 @@ function shadowPainter() {
 
   this.createSteps = function () {
     var output = '';
-
-    Elems.steps.innerHTML += '<h4 class=\'b-title\'>' + this.createControls(Step.plusMinus) + '</h4> ';
-
+    const plusMinusControls = this.createControls(Step.plusMinus);
+    Elems.steps.innerHTML += `<h4 class="b-title">${plusMinusControls}</h4>`;
 
     for (var i = 0; i < Anim.stepsMax; i++) {
       var customClass = i < Anim.steps ? '' : ' ' + Step.hiddenClass;
@@ -869,7 +853,7 @@ function shadowPainter() {
       output += stepItem;
     }
 
-    Elems.steps.innerHTML += '<ul class="items items--steps">' + output + '</ul>';
+    Elems.steps.innerHTML += `<ul class="items items--steps">${output}</ul>`;
 
     Elems.steps.innerHTML += this.createControls(Step.clearFrames);
 
@@ -893,13 +877,11 @@ function shadowPainter() {
   // -----------------------------------------
 
   this.onClickStepControl = function (elem) {
-
     var action = elem.getAttribute('data-action');
     var stepsItems = doc.querySelectorAll(checkDot(Step.className));
     var division = stepsItems[Anim.steps - 1];
 
     if (action === 'plus' && Anim.steps < Anim.stepsMax) {
-
       Anim.steps++;
 
       division.nextSibling.classList.remove(Step.hiddenClass);
@@ -907,12 +889,12 @@ function shadowPainter() {
 
       if (Anim.steps === Anim.stepsMax) {
         elem.classList.add(Step.disabledClass);
-      } else if (Anim.steps === 2) {
+      }
+      else if (Anim.steps === 2) {
         this.enableControls();
       }
-    } else if (action === 'minus' &&
-              Anim.steps > 1) {
-
+    }
+    else if (action === 'minus' && Anim.steps > 1) {
       Anim.steps--;
       division.classList.add(Step.hiddenClass);
       this.paintShadow();
@@ -925,7 +907,8 @@ function shadowPainter() {
 
       if (Anim.steps === 1) {
         elem.classList.add(Step.disabledClass);
-      } else if (Anim.steps === Anim.stepsMax - 1) {
+      }
+      else if (Anim.steps === Anim.stepsMax - 1) {
         this.enableControls();
       }
     }
@@ -949,7 +932,8 @@ function shadowPainter() {
       this.createFramesSet();
       this.paintShadow();
       this.updateCells();
-    } else {
+    }
+    else {
       this.resetCurrentFrame();
       this.paintShadow();
       this.updateCells();
@@ -964,11 +948,11 @@ function shadowPainter() {
     for (var i = 0; i < radio.length; i++) {
       if (Frames[i].active > 0) {
         radio[i].classList.add('is--filled');
-      } else {
+      }
+      else {
         radio[i].classList.remove('is--filled');
       }
     }
-
   };
 
   // -----------------------------------------
@@ -986,12 +970,12 @@ function shadowPainter() {
 
       if (color === Color.transparent) {
         cell.checked = false;
-      } else {
+      }
+      else {
         colored++;
         cell.checked = true;
       }
     }
-
   };
 
   // -----------------------------------------
@@ -1009,25 +993,24 @@ function shadowPainter() {
 
     if (is_opened) {
       is_opened = false;
-    } else {
+    }
+    else {
       is_opened = true;
       text = textClose;
     }
 
     Elems.codesToggle.innerHTML = text;
-
     Elems.codes.classList.toggle('is-open');
 
-    Output.HtML = '<!-- ' + Output.comment + ' -->\n<div class=\'box\'><span class=\'dot\'></span></div>';
+    Output.HTML = `<!-- ${Output.comment} -->\n<div class="box"><span class="dot"></span></div>`;
 
-    Elems.codesCss.innerHTML = '/*-- ' + Output.comment + ' */\n' + this.createOutputCss();
-    Elems.codesHtml.innerHTML = Output.HtML;
-
+    Elems.codesCSS.innerHTML = `/*-- ${Output.comment} */\n${this.createOutputCSS()}`;
+    Elems.codesHtml.innerHTML = Output.HTML;
   };
 
   // -----------------------------------------
 
-  this.createOutputCss = function () {
+  this.createOutputCSS = function () {
     var styles = '';
 
     var dottes = Frames[0];
@@ -1044,13 +1027,12 @@ function shadowPainter() {
         var value = addUnits(params[item], item);
         elemStyles += item + ': ' + value + ';\n';
       }
-      styles += className + ' {\n' + elemStyles + '}\n';
+      styles += `${className} {\n${elemStyles}}\n`;
     }
 
     styles += '\n/* Keyframes */\n';
 
-    var animation = '\n@-webkit-keyframes shadows {\n' + Output.Animation + '\n}\n';
-    animation += '@keyframes shadows {\n' + Output.Animation + '\n}\n';
+    var animation = `@keyframes shadows {\n${Output.Animation}\n}\n`;
     styles += animation;
 
     return styles;
@@ -1059,12 +1041,10 @@ function shadowPainter() {
   // -----------------------------------------
 
   this.createDurationInp = function () {
-
     var durationInt = Anim.duration.split('s').join('');
     Elems.durationInp.value = durationInt;
 
     this.addDataDefautlt(Elems.durationInp, durationInt);
-
     this.addOnChangeEvents(classNames.durationInp, this.onChangeDuration);
   };
 
@@ -1078,17 +1058,15 @@ function shadowPainter() {
   // -----------------------------------------
 
   this.createSizeInp = function () {
-
     Elems.sizeInp.value = Scene.size;
-    this.addDataDefautlt(Elems.sizeInp, Scene.size);
 
+    this.addDataDefautlt(Elems.sizeInp, Scene.size);
     this.addOnChangeEvents(classNames.sizeInp, this.onChangeSize);
   };
 
   // -----------------------------------------
 
   this.onChangeSize = function (elem) {
-
     Scene.size = Number(elem.value);
 
     this.addConfig();
@@ -1098,17 +1076,15 @@ function shadowPainter() {
   // -----------------------------------------
 
   this.createDotsInp = function () {
-
     Elems.dotsInp.value = Scene.oneSide;
-    this.addDataDefautlt(Elems.dotsInp, Scene.oneSide);
 
+    this.addDataDefautlt(Elems.dotsInp, Scene.oneSide);
     this.addOnChangeEvents(classNames.dotsInp, this.onChangeDots);
   };
 
   // -----------------------------------------
 
   this.onChangeDots = function (elem) {
-
     Scene.oneSide = Number(elem.value);
 
     this.addConfig();
@@ -1127,15 +1103,16 @@ function out(data, is_style, color) {
   if (is_style) {
     color = color || 'orangered';
     style = 'color: ' + color + '; padding-left: 20px;';
-    data = '%c' + data;
+    style = `color: ${color}; padding-left: 20px;`;
+    data = `%c${data}`;
     console.log(data, style);
-  } else {
+  }
+  else {
     console.log(data);
   }
 }
 
 function checkDot(className) {
-
   if (className.indexOf('.') < 0) {
     className = '.' + className;
   }
@@ -1143,7 +1120,6 @@ function checkDot(className) {
 }
 
 function strIsNAN(str) {
-
   str = str.replace(/-|\./g,'');
   str = str.split(' ').join('');
   return isNaN(str);
@@ -1190,7 +1166,8 @@ function getValByKeyCode(elem, key, isShift) {
       step = 0.1;
     }
     value += step;
-  } else if (key === 40) {
+  }
+  else if (key === 40) {
     if (value > 0 &&
          value <= 1 &&
          min < 1) {
@@ -1202,12 +1179,15 @@ function getValByKeyCode(elem, key, isShift) {
 
   if (value < min) {
     value = min;
-  } else if (max !== null && value > max) {
+  }
+  else if (max !== null && value > max) {
     value = max;
-  } else {
+  }
+  else {
     if (value > 0 && value < 1) {
       value = value.toFixed(1);
-    } else {
+    }
+    else {
       value = value.toFixed();
     }
   }
