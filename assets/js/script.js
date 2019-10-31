@@ -556,17 +556,15 @@ ShadowPainter.prototype.createShadow = function (dottes, is_value) {
 
 ShadowPainter.prototype.deleteKeyframes = function () {
   var rules = this.Anim.rules;
-  var keyTexts = [];
+  var keyFrames = this.Anim.keyframes;
+  const max = 1000;
+  let counter = 0;
 
-  if (rules.length > 0) {
-    for (var r = 0; r < rules.length; r++) {
-      var keyText = rules[r].keyText;
-      keyTexts.push(keyText);
-    }
+  while (keyFrames.cssRules.length > 0 && counter < max) {
+    const {keyText} = keyFrames.cssRules[0];
+    keyFrames.deleteRule(keyText);
 
-    for (var i = 0; i < keyTexts.length; i++) {
-      this.Anim.keyframes.deleteRule(keyTexts[i]);
-    }
+    counter++;
   }
 };
 
@@ -582,19 +580,16 @@ ShadowPainter.prototype.replaceAnimation = function (animation) {
   }
 
   for (var step = 0; step < this.Anim.steps; step++) {
-
     var anim_dottes = this.Frames[step];
     var anim_shadows = this.createShadow(anim_dottes);
-
-    var frameRule = `${animation.perc * step}% {\n${anim_shadows}\n}`;
+    var stepPercents = +(animation.perc * step).toFixed(3);
+    var frameRule = `${stepPercents}% {\n${anim_shadows}\n}`;
 
     this.Anim.keyframes.appendRule(frameRule);
-
     this.Output.Animation += frameRule + '\n';
   }
 
   this.restartAnimation();
-
 };
 
 // -----------------------------------------
