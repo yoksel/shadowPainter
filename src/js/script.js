@@ -1061,18 +1061,24 @@ function addStylesElem(elemClass) {
 // -----------------------------------------
 
 function findKeyFrames(name) {
-  var keytFrames;
-  for (var i = 0; i < document.styleSheets.length; i++) {
-    var stylesList = document.styleSheets[i].cssRules;
+  var keyFrames;
+  var sheets = document.styleSheets;
 
-    for (var k = 0; k < stylesList.length; k++) {
-      if (stylesList[k].name === name) {
-        keytFrames = stylesList[k];
+  for (var i = 0; i < sheets.length; i++) {
+    try {
+      var stylesList = sheets[i].cssRules;
+
+      for (var k = 0; k < stylesList.length; k++) {
+        if (stylesList[k].name === name) {
+          keyFrames = stylesList[k];
+        }
       }
     }
+    catch {}
+
   }
 
-  return keytFrames;
+  return keyFrames;
 }
 
 // -----------------------------------------
