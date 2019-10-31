@@ -35,7 +35,15 @@ $time: 1s;
 box-sizing: border-box;
 }
 
+HTML,
 BODY {
+  height: 100%;
+}
+
+BODY {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #FFF;
   font: 14px/1.4 'Trebuchet MS', Verdana, sans-serif;
   color: #333;
@@ -46,13 +54,7 @@ LABEL {
 }
 
 .l-wrapper {
-  position: absolute;
-  display: inline-block;
-  margin: auto;
-  left: 1em;
-  right: 1em;
-  top: 1em;
-  bottom: 1em;
+  position: relative;
   border: 1px solid $color-border;
   white-space: nowrap;
 

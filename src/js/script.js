@@ -1,7 +1,7 @@
 var line = '------------------------';
 
 function ShadowPainter() {
-  var timer = 0;
+  this.timer;
   this.isMousePressed = false;
 
   this.classNames = {
@@ -101,30 +101,25 @@ function ShadowPainter() {
     this.createDotsInp();
   };
 
-
-  // FUNCTIONS
-  // -----------------------------------------
-
-
-
-  // -----------------------------------------
-
-  function setTimer(func, params) {
-    if (timer) {
-      this.clearTimeout(timer);
-    }
-    var execFunc = function () {
-      func(params);
-    };
-    timer = this.setTimeout(execFunc , 50);
-  }
 } // End ShadowPainter()
+
+// -----------------------------------------
+
+ShadowPainter.prototype.setTimer = function(func, params) {
+  if (this.timer) {
+    this.clearTimeout(this.timer);
+  }
+  var execFunc = function () {
+    func(params);
+  };
+  this.timer = this.setTimeout(execFunc , 50);
+};
 
 // -----------------------------------------
 
 ShadowPainter.prototype.getAnimStr = function() {
   return `${this.Anim.duration} ${this.Anim.name} linear infinite`;
-}
+};
 
 // -----------------------------------------
 
@@ -351,7 +346,7 @@ ShadowPainter.prototype.addOnChangeEvents = function (itemsClass, func) {
         func.call(parent, this);
       }
       else {
-        setTimer(parent.checkInputValue, params);
+        this.setTimer(parent.checkInputValue, params);
       }
     };
 
@@ -505,9 +500,9 @@ ShadowPainter.prototype.paintShadow = function () {
   styles += this.classNames.resultDot + ' {\n ' + shadows + ' \nanimation-duration: ' + this.Anim.duration + ';\n}\n';
 
   if (this.currentFrame > 0) {
-
     dottes = this.Frames[this.currentFrame - 1];
     shadows = this.createShadow(dottes);
+
     styles += '.b-box--paint .dot--previous {\n ' + shadows + ' \n}\n';
   }
 
@@ -734,7 +729,6 @@ ShadowPainter.prototype.createSteps = function () {
   this.addEvents(this.Step.inputClass, this.onClickStep);
   this.addEvents(this.Step.controlClass, this.onClickStepControl);
   this.addEvents(this.Step.clearFramesClass, this.onClickClearFrames);
-
 };
 
 // -----------------------------------------
