@@ -32,23 +32,31 @@ BODY {
 LABEL {
   cursor: pointer; }
 
-.l-wrapper {
+.container {
+  padding: 1rem; }
+
+.wrapper {
   position: relative;
+  min-width: 700px;
   border: 1px solid #CCC;
   white-space: nowrap; }
-  .l-wrapper:after {
+  .wrapper:after {
     content: '';
     display: table;
     width: 100%;
     clear: both; }
 
-.b-boxes {
+.title {
+  font-size: 3rem;
+  text-align: center; }
+
+.boxes {
   position: relative;
   text-align: center;
   border: 1px solid #CCC;
   border-width: 1px 0; }
 
-.l-zero-gravity {
+.zero-gravity {
   position: absolute;
   width: 100%;
   top: 0;
@@ -57,28 +65,28 @@ LABEL {
   left: 0;
   margin: auto; }
 
-.b-box {
+.box {
   position: relative;
   display: inline-block;
   border: 1px solid #CCC; }
-  .b-box:nth-of-type(1) {
+  .box:nth-of-type(1) {
     margin-right: 20px; }
 
-.b-panel {
+.panel {
   padding: 10px;
   color: #888; }
-  .b-panel:before, .b-panel:after {
+  .panel:before, .panel:after {
     content: '';
     display: table;
     width: 100%;
     clear: both; }
 
-.b-title {
+.title {
   display: inline-block;
   padding-right: 10px;
   line-height: 30px; }
 
-.b-steps .b-title {
+.steps .title {
   float: none;
   display: inline-block;
   margin: 0 auto;
@@ -86,7 +94,7 @@ LABEL {
 
 /* Paint Box
 ----------------------------- */
-.b-box--paint {
+.box--paint {
   overflow: hidden;
   border-width: 0 1px 1px 0;
   background-image: linear-gradient(to right, #CCC 1px, transparent 1px), linear-gradient(to bottom, #CCC 1px, transparent 1px);
@@ -115,7 +123,7 @@ LABEL {
 
 /* Result Box
 ----------------------------- */
-.b-box--result {
+.box--result {
   overflow: hidden; }
 
 /* Dotts
@@ -130,7 +138,7 @@ LABEL {
 
 @keyframes shadows {}/* Palette
 ----------------------------- */
-.b-palette {
+.palette {
   display: inline-block; }
 
 .items--colors {
@@ -188,13 +196,13 @@ LABEL {
 
 /* Panel
 ----------------------------- */
-.b-panel {
+.panel {
   position: relative; }
 
-.b-panel__item {
+.panel__item {
   float: left;
   margin-left: 32px; }
-  .b-panel__item:first-child {
+  .panel__item:first-child {
     margin-left: 0; }
 
 .text--value {
@@ -208,7 +216,7 @@ LABEL {
 
 /* Steps
 ----------------------------- */
-.b-steps {
+.steps {
   text-align: center;
   -webkit-user-select: none;
   -ms-user-select: none;
@@ -304,7 +312,7 @@ LABEL {
 
 /* Codes
 ----------------------------- */
-.b-codes {
+.codes {
   /*display: none;*/
   position: absolute;
   z-index: 10;
@@ -319,7 +327,7 @@ LABEL {
   left: -.5em;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 0 0 0 1000px rgba(255, 255, 255, 0.8); }
 
-.b-codes__toggle {
+.codes__toggle {
   position: absolute;
   top: -24px;
   right: 10px;
@@ -327,21 +335,21 @@ LABEL {
   line-height: 1.2;
   color: #555;
   cursor: pointer; }
-  .b-codes__toggle:hover {
+  .codes__toggle:hover {
     padding-top: 1px; }
 
-.b-codes__wrapper {
+.codes__wrapper {
   display: none;
   padding: 20px;
   border: 1px solid #BBB; }
-  .is-open .b-codes__wrapper {
+  .is-open .codes__wrapper {
     display: block; }
 
-.b-codes--title {
+.codes--title {
   margin-bottom: 6.66667px;
   color: #777; }
 
-.b-codes__textarea {
+.codes__textarea {
   display: block;
   width: 100%;
   height: 120px;

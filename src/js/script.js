@@ -5,15 +5,15 @@ function ShadowPainter() {
   this.isMousePressed = false;
 
   this.classNames = {
-    wrapper: '.l-wrapper',
-    paintBox: '.b-box--paint',
-    resultBox: '.b-box--result',
-    resultDot: '.b-box--result .dot',
-    palette: '.b-palette',
-    steps: '.b-steps',
+    wrapper: '.wrapper',
+    paintBox: '.box--paint',
+    resultBox: '.box--result',
+    resultDot: '.box--result .dot',
+    palette: '.palette',
+    steps: '.steps',
 
-    codes: '.b-codes',
-    codesToggle: '.b-codes__toggle',
+    codes: '.codes',
+    codesToggle: '.codes__toggle',
     codesCSS: '.textarea--css',
     codesHtml: '.textarea--html',
 
@@ -41,7 +41,7 @@ function ShadowPainter() {
     ['#004358','#1F8A70','#BEDB39','#FFE11A','#FD7400'],
     ['#96CA2D','#B5E655','#EDF7F2','#4BB5C1','#7FC6BC'],
     ['#2E0927','#D90000','#FF2D00','#FF8C00','#04756F'],
-    ['#FCFFF5','#D1DBBD','#91AA9D','#3E606F','#193441'],
+    ['#193441','#3E606F','#91AA9D','#D1DBBD','#FCFFF5'],
     ['#332532','#644D52','#F77A52','#FF974F','#A49A87']
   ];
 
@@ -67,7 +67,6 @@ function ShadowPainter() {
     oneSideMax: 30,// dottes in line
     size: 250,
     dotSize: 30,// pixels
-    padding: 20,// pixels. Don't change it
     border: 1// pixels
   };
 
@@ -137,17 +136,13 @@ ShadowPainter.prototype.setParams = function () {
   this.Scene.size = this.Scene.dotSize * this.Scene.oneSide;
 
   this.configElemParams = {
-    '.l-wrapper': {
-      'width': 700, // size * 2 + this.Scene.padding * 3 + border*6
-      'height': 490, // size + this.Scene.padding * 2 + border*4
+    '.boxes': {
+      'min-height': 340
     },
-    '.b-boxes': {
-      'height': 340
-    },
-    '.l-zero-gravity': {
+    '.zero-gravity': {
       'height': this.Scene.size + this.Scene.border
     },
-    '.b-box': {
+    '.box': {
       'width': this.Scene.size + this.Scene.border,
       'height': this.Scene.size
     },
@@ -164,7 +159,7 @@ ShadowPainter.prototype.setParams = function () {
     '.is-running': {
       'animation': this.getAnimStr()
     },
-    '.b-box--paint': {
+    '.box--paint': {
       'background-size': this.Scene.dotSize + ' ' + this.Scene.dotSize
     }
   };
@@ -493,7 +488,7 @@ ShadowPainter.prototype.paintShadow = function () {
   var dottes = this.Frames[this.currentFrame];
   var shadows = this.createShadow(dottes);
 
-  styles = '.b-box--paint .dot {\n ' + shadows + ' \n}\n';
+  styles = '.box--paint .dot {\n ' + shadows + ' \n}\n';
 
   dottes = this.Frames[0];
   shadows = this.createShadow(dottes);
@@ -503,7 +498,7 @@ ShadowPainter.prototype.paintShadow = function () {
     dottes = this.Frames[this.currentFrame - 1];
     shadows = this.createShadow(dottes);
 
-    styles += '.b-box--paint .dot--previous {\n ' + shadows + ' \n}\n';
+    styles += '.box--paint .dot--previous {\n ' + shadows + ' \n}\n';
   }
 
   this.Styles.shadows.innerHTML = styles;
@@ -952,6 +947,8 @@ ShadowPainter.prototype.createDotsInp = function () {
 // -----------------------------------------
 
 ShadowPainter.prototype.initColors = function() {
+  const currentListNum = Math.floor(Math.random() * this.Palettes.length);
+
   const colors = {
     className: 'color',
     inputType: 'radio',

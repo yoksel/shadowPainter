@@ -6,32 +6,67 @@
         <link rel="stylesheet" href="assets/css/styles.css">
     </head>
     <body>
-        <div class="l-wrapper" data-size="300" data-oneside="9">
-          <div class="b-panel b-panel--top">
-            <div class="b-palette b-panel__item"></div>
-            <div class="b-duration b-panel__item"><h4 class='b-title'>Duration</h4>
-              <input type="text" value="2" class="text text--value text--duration" data-min="0" maxlength="2"/> sec.</div>
-            <div class="b-size b-panel__item"><h4 class='b-title'>Dotts</h4>
-              <input type="text" value="10" class="text text--value text--dots" data-min="1" data-max="20" maxlength="2"/></div>
-            <div class="b-size b-panel__item"><h4 class='b-title'>Size</h4>
-              <input type="text" value="30" class="text text--value text--size" data-min="2" data-max="300" maxlength="3"/> px</div>
-          </div>
-          <div class="b-boxes">
-            <div class="l-zero-gravity">
-              <div class="b-box b-box--paint"></div>
-              <div class="b-box b-box--result"><span class="dot is-running"></span></div>
+        <div class="container">
+          <h1 class="title">Box-shadow painter</h1>
+
+          <div class="wrapper">
+            <div class="panel panel--top">
+              <div class="palette panel__item"></div>
+
+              <div class="duration panel__item">
+                <label for="duration" class='panel__label'>Duration</label>
+                <input
+                  id="duration"
+                  type="text"
+                  value="2"
+                  class="text text--value text--duration"
+                  data-min="0"
+                  maxlength="2"/>
+                  sec.
+              </div>
+
+              <div class="size panel__item">
+                <label class='panel__label'>Dotts</label>
+                <input
+                  type="text"
+                  value="10"
+                  class="text text--value text--dots"
+                  data-min="1"
+                  data-max="20"
+                  maxlength="2"/>
+              </div>
+
+              <div class="size panel__item">
+                <label class='panel__label'>Size</label>
+                <input
+                  type="text"
+                  value="30"
+                  class="text text--value text--size"
+                  data-min="2"
+                  data-max="300"
+                  maxlength="3"/> px
+              </div>
             </div>
-          </div>
-          <div class="b-panel b-panel--bottom">
-            <div class="b-steps"></div>
-          </div>
-          <div class="b-codes">
-            <span class="b-codes__toggle" data-init = "Get codes" data-opened = "Close">Get codes</span>
-            <div class="b-codes__wrapper">
-              <h3 class="b-codes--title">CSS</h3>
-              <textarea class="b-codes__textarea textarea--css"></textarea>
-              <h3 class="b-codes--title">HTML</h3>
-              <textarea class="b-codes__textarea textarea--html"></textarea>
+
+            <div class="boxes">
+              <div class="zero-gravity">
+                <div class="box box--paint"></div>
+                <div class="box box--result"><span class="dot is-running"></span></div>
+              </div>
+            </div>
+            <div class="panel panel--bottom">
+              <div class="steps"></div>
+            </div>
+            <div class="codes">
+              <span class="codes__toggle" data-init = "Get codes" data-opened = "Close">Get codes</span>
+
+              <div class="codes__wrapper">
+                <h3 class="codes--title">CSS</h3>
+                <textarea class="codes__textarea textarea--css"></textarea>
+
+                <h3 class="codes--title">HTML</h3>
+                <textarea class="codes__textarea textarea--html"></textarea>
+              </div>
             </div>
           </div>
         </div>

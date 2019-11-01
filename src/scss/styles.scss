@@ -53,8 +53,13 @@ LABEL {
   cursor: pointer;
 }
 
-.l-wrapper {
+.container {
+  padding: 1rem;
+}
+
+.wrapper {
   position: relative;
+  min-width: 700px;
   border: 1px solid $color-border;
   white-space: nowrap;
 
@@ -63,13 +68,18 @@ LABEL {
     }
   }
 
-.b-boxes {
+.title {
+  font-size: 3rem;
+  text-align: center;
+}
+
+.boxes {
   position: relative;
   text-align: center;
   border: 1px solid $color-border;
   border-width: 1px 0;
 }
-.l-zero-gravity {
+.zero-gravity {
   position: absolute;
   width: 100%;
   top: 0;
@@ -78,7 +88,7 @@ LABEL {
   left: 0;
   margin: auto;
 }
-.b-box {
+.box {
   position: relative;
   display: inline-block;
   border: 1px solid $color-border;
@@ -86,7 +96,7 @@ LABEL {
     margin-right: $padding;
     }
 }
-.b-panel {
+.panel {
   padding: $padding/2;
   color: #888;
   &:before,
@@ -96,20 +106,20 @@ LABEL {
 }
 
 
-.b-panel--top {
+.panel--top {
 }
 
-.b-panel--bottom {
+.panel--bottom {
 }
 
 
-.b-title {
+.title {
   display: inline-block;
   padding-right: $padding/2;
   line-height: $dotSize;
   }
 
-.b-steps .b-title {
+.steps .title {
   float: none;
   display: inline-block;
   margin: 0 auto;
@@ -118,7 +128,7 @@ LABEL {
 
 /* Paint Box
 ----------------------------- */
-.b-box--paint {
+.box--paint {
   overflow: hidden;
   border-width: 0 1px 1px 0;
   background-image:
@@ -158,7 +168,7 @@ LABEL {
 
 /* Result Box
 ----------------------------- */
-.b-box--result {
+.box--result {
   overflow: hidden;
   }
 
@@ -181,7 +191,7 @@ LABEL {
 
 /* Palette
 ----------------------------- */
-.b-palette {
+.palette {
   display: inline-block;
 }
 .items--colors {
@@ -245,10 +255,10 @@ LABEL {
 }
 /* Panel
 ----------------------------- */
-.b-panel {
+.panel {
   position: relative;
   }
-.b-panel__item {
+.panel__item {
   float: left;
   margin-left: $padding*1.6;
   &:first-child {
@@ -267,7 +277,7 @@ LABEL {
 
 /* Steps
 ----------------------------- */
-.b-steps {
+.steps {
   text-align: center;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -367,7 +377,7 @@ LABEL {
 }
 /* Codes
 ----------------------------- */
-.b-codes {
+.codes {
   /*display: none;*/
 
   position: absolute;
@@ -386,7 +396,7 @@ LABEL {
      0 0 0 1000px rgba(255, 255, 255, .8);
 }
 
-.b-codes__toggle {
+.codes__toggle {
   position: absolute;
   top: -$padding*1.2;
   right: $padding/2;
@@ -395,7 +405,7 @@ LABEL {
     padding-top: 1px;
   }
 }
-.b-codes__wrapper {
+.codes__wrapper {
   display: none;
   padding: $padding;
   border: 1px solid #BBB;
@@ -404,11 +414,11 @@ LABEL {
     }
   }
 
-.b-codes--title {
+.codes--title {
   margin-bottom: $padding/3;
   color: #777;
 }
-.b-codes__textarea {
+.codes__textarea {
   display: block;
   width: 100%;
   height: $dotSize*4;
